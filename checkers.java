@@ -73,6 +73,7 @@ public class checkers {
                 System.out.println("ERROR: Letter is not within board space (A-H)");
             }
             if (work == true) {
+                // warning: extreme spaghetti code that i barely understand myself despite writing it is inbound
                 int cord = positions[cord2][cord1];
                 if (cord == 2) {
                     switch (cord2) {
@@ -88,9 +89,11 @@ public class checkers {
                                         if ((cord2-1) > 0) {
                                             if (positions[cord2-2][cord1-2] == 0) {
                                                 System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                // I was encountering issues so i just went with +""+ to satisfy it. Maybe it was trying to add it together. No clue.
                                                 legalcheck++;
                                                 tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                
+                                                // I decided to use this to check the legality of a move once you input your intended target.
+                                                // The percent sign is a signal to the code that this move contains a jump.
                                             }
                                         }
                                         break;
@@ -271,6 +274,7 @@ public class checkers {
                                 if (tstring.charAt(i) == char3) {
                                     if (tstring.charAt(i+1) == char4) {
                                        if (i+2 <= tstring.length()) {
+                                           // Being extremely careful to not go outside the length of the string
                                            if (tstring.charAt(i+2) == '%') {
                                                intcheck = 2;
                                            } else {
@@ -294,6 +298,7 @@ public class checkers {
                                 positions[cord2][cord1] = 0;
                                 positions[cord4][cord3] = 0;
                                 positions[cord4+(cord4-cord2)][cord3+(cord3-cord1)] = cord;
+                                // This formula will calculate the direction the jump should go
                                 x=1;
                                 break;
                             default:
