@@ -37,12 +37,14 @@ public class Main {
         String letters = "ABCDEFGH"; 
         String numbers = "12345678";
         String[] a = {"A","B","C","D","E","F","G","H"};
-        /*
-        positions[4][6] = 2;
-        positions[3][5] = 1;
-        positions[3][3] = 1;
-        */ // This is for testing the multi-jump.
+        
+        /*positions[2][0] = 1;
+        positions[3][5] = 2;
+        positions[3][3] = 2;
+        positions[3][1] = 2;*/
+        // This is for testing the multi-jump.
         // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
+        // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
         int j = 0; while (j==0) {
             System.out.println("    1   2   3   4   5   6   7   8 ");
             System.out.println("   --- --- --- --- --- --- --- ---");
@@ -79,9 +81,13 @@ public class Main {
                 System.out.println("ERROR: Letter is not within board space (A-H)");
             }
             if (work == true) {
+                // Using logic perimeters, these pieces can be moved if the move is legal.
+                // However this would need to be rewritten to support kings as it is solely to support normal pieces
+                // and has 0 infrastructure to support kings.
                 int cord = positions[cord2][cord1];
                 if (cord == 2) {
                     switch (cord2) {
+                        // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
                         case 1:
                         case 2:
                         case 3:
@@ -276,6 +282,7 @@ public class Main {
                             if ((tstring.length()-i)>1) {
                                 if (tstring.charAt(i) == char3) {
                                     if (tstring.charAt(i+1) == char4) {
+                                       // Being extra careful to not go out of bounds
                                        if (i+2 <= tstring.length()) {
                                            if (tstring.charAt(i+2) == '%') {
                                                intcheck = 2;
@@ -302,67 +309,88 @@ public class Main {
                                 int cord6 = cord4+(cord4-cord2);
                                 int cord5 = cord3+(cord3-cord1);
                                 positions[cord6][cord5] = cord;
+                                /* Debugging multi-jump errors (resolved, issue was that im stupid but keeping this here for future use)
+                                System.out.println(letters.charAt(cord5)+""+numbers.charAt(cord6));
+                                System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4+" "+cord5+" "+cord6);
+                                System.out.println((cord4-cord2)+" "+(cord3-cord1));
+                                */
                                 x=1;
                                 Boolean done = false;
                                 while (done==false) {
                                     Boolean jumped = false;
                                     if (cord3-cord1 > 0) {
                                         System.out.println("here1");
-                                        if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
+                                        //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) { <-- These commented if statements need to be removed, too lazy at the moment
                                             System.out.println("here2");
-                                            if (positions[cord6+1][cord5+1] != cord && positions[cord5+1][cord6+1] != 0) {
-                                                if (positions[cord6+2][cord5+2] == 0) {
-                                                    System.out.println("Double jump possible, being executed.");
-                                                    positions[cord6][cord5] = 0;
-                                                    positions[cord6+1][cord5+1] = 0;
-                                                    positions[cord6+2][cord5+2] = cord;
-                                                    jumped = true;
-                                                }
-                                            }
-                                            if (positions[cord6-1][cord5+1] != cord && positions[cord6-1][cord5+1] != 0) {
-                                                if (positions[cord6-2][cord5+2] == 0) {
-                                                    if (positions[cord6][cord5] == cord) {
+                                            if (cord6<6 && cord5<6) {
+                                                if (positions[cord6+1][cord5+1] != cord && positions[cord6+1][cord5+1] != 0) {
+                                                    if (positions[cord6+2][cord5+2] == 0) {
                                                         System.out.println("Double jump possible, being executed.");
                                                         positions[cord6][cord5] = 0;
-                                                        positions[cord6-1][cord5+1] = 0;
-                                                        positions[cord6-2][cord5+2] = cord;
+                                                        positions[cord6+1][cord5+1] = 0;
+                                                        positions[cord6+2][cord5+2] = cord;
                                                         jumped = true;
+                                                        cord6 = cord6+2;
+                                                        cord5 = cord5+2;
                                                     }
                                                 }
                                             }
-                                        }
+                                            if (cord6>1 && cord5<6) {
+                                                if (positions[cord6-1][cord5+1] != cord && positions[cord6-1][cord5+1] != 0) {
+                                                    if (positions[cord6-2][cord5+2] == 0) {
+                                                        if (positions[cord6][cord5] == cord) {
+                                                            System.out.println("Double jump possible, being executed.");
+                                                            positions[cord6][cord5] = 0;
+                                                            positions[cord6-1][cord5+1] = 0;
+                                                            positions[cord6-2][cord5+2] = cord;
+                                                            jumped = true;
+                                                            cord6 = cord6-2;
+                                                            cord5 = cord5+2;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        //}
                                     } else {
                                         System.out.println("here4");
-                                       if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
-                                           System.out.println("here1");
-                                            if (positions[cord6-1][cord5-1] != cord && positions[cord5+1][cord6+1] != 0) {
-                                                if (positions[cord6-2][cord5-2] == 0) {
-                                                    System.out.println("Double jump possible, being executed.");
-                                                    positions[cord6][cord5] = 0;
-                                                    positions[cord6-1][cord5-1] = 0;
-                                                    positions[cord6-2][cord5-2] = cord;
-                                                    jumped = true;
-                                                }
-                                            }
-                                            if (positions[cord6+1][cord5-1] != cord && positions[cord6-1][cord5+1] != 0) {
-                                                if (positions[cord6+2][cord5-2] == 0) {
-                                                    if (positions[cord6][cord5] == cord) {
+                                        //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
+                                            System.out.println("here1");
+                                            if (cord6>1 && cord5>1) {
+                                                if (positions[cord6-1][cord5-1] != cord && positions[cord6-1][cord5-1] != 0) {
+                                                    if (positions[cord6-2][cord5-2] == 0) {
                                                         System.out.println("Double jump possible, being executed.");
                                                         positions[cord6][cord5] = 0;
-                                                        positions[cord6+1][cord5-1] = 0;
-                                                        positions[cord6+2][cord5-2] = cord;
+                                                        positions[cord6-1][cord5-1] = 0;
+                                                        positions[cord6-2][cord5-2] = cord;
                                                         jumped = true;
+                                                        cord6 = cord6-2;
+                                                        cord5 = cord5-2;
                                                     }
                                                 }
                                             }
-                                        } 
+                                            if (cord6<6 && cord5>1) {
+                                                if (positions[cord6+1][cord5-1] != cord && positions[cord6+1][cord5-1] != 0) {
+                                                    if (positions[cord6+2][cord5-2] == 0) {
+                                                        if (positions[cord6][cord5] == cord) {
+                                                            System.out.println("Double jump possible, being executed.");
+                                                            positions[cord6][cord5] = 0;
+                                                            positions[cord6+1][cord5-1] = 0;
+                                                            positions[cord6+2][cord5-2] = cord;
+                                                            jumped = true;
+                                                            cord6 = cord6+2;
+                                                            cord5 = cord5-2;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        //} 
                                     }
                                     if (jumped == false) {
                                         done = true;
                                     }
                                     // Need to check perimeters to allow for multi jumping.
                                     // For instance, is the position out of bounds?
-                                    // Currently it is too overbearing. Needs to fuck off
+                                    // Perimeters working for now, needs testing
                                 }
                                 break;
                             default:
