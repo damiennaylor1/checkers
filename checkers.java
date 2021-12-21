@@ -111,6 +111,7 @@ public class Main {
                                         break;
                                     case 1:
                                         System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
+                                        legalcheck++;
                                         tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
                                         break;
                                 }    
@@ -210,6 +211,7 @@ public class Main {
                                         break;
                                     case 1:
                                         System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                        legalcheck++;
                                         tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                         break;
                                 }    
@@ -275,6 +277,7 @@ public class Main {
                                     case 1:
                                         System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
                                         tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                        legalcheck++;
                                         break;
                                     default:
                                         System.out.println("There are no legal moves for this piece!");
