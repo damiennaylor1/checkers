@@ -295,11 +295,17 @@ public class checkers {
                                 x=1;
                                 break;
                             case 2:
-                                positions[cord2][cord1] = 0;
-                                positions[cord4][cord3] = 0;
-                                positions[cord4+(cord4-cord2)][cord3+(cord3-cord1)] = cord;
+                                int cord6 = cord4+(cord4-cord2);
+                                int cord5 = cord3+(cord3-cord1)
+                                positions[cord6][cord5] = cord;
                                 // This formula will calculate the direction the jump should go
                                 x=1;
+                                Boolean done = false;
+                                while (done==false) {
+                                    done = true;
+                                    // Need to check perimeters to allow for multi jumping.
+                                    // For instance, is the position out of bounds?
+                                }
                                 break;
                             default:
                                 System.out.println("Invalid move.");
