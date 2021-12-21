@@ -296,7 +296,7 @@ public class checkers {
                                 break;
                             case 2:
                                 int cord6 = cord4+(cord4-cord2);
-                                int cord5 = cord3+(cord3-cord1)
+                                int cord5 = cord3+(cord3-cord1);
                                 positions[cord6][cord5] = cord;
                                 // This formula will calculate the direction the jump should go
                                 x=1;
