@@ -1,9 +1,10 @@
 import java.util.Scanner;
-public class checkers {
+public class Main {
     public static void main(String args[]) {
         // Set the player checkers
         Scanner scan = new Scanner(System.in);
         int [][] positions = new int[8][8];
+        // /*
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) { 
                 //Set player 1 pieces
@@ -32,11 +33,16 @@ public class checkers {
                         positions[x][y] = 0;
                 }
             }
-        }
+        } // */
         String letters = "ABCDEFGH"; 
         String numbers = "12345678";
         String[] a = {"A","B","C","D","E","F","G","H"};
-        positions[4][3] = 2;
+        /*
+        positions[4][6] = 2;
+        positions[3][5] = 1;
+        positions[3][3] = 1;
+        */ // This is for testing the multi-jump.
+        // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
         int j = 0; while (j==0) {
             System.out.println("    1   2   3   4   5   6   7   8 ");
             System.out.println("   --- --- --- --- --- --- --- ---");
@@ -73,7 +79,6 @@ public class checkers {
                 System.out.println("ERROR: Letter is not within board space (A-H)");
             }
             if (work == true) {
-                // warning: extreme spaghetti code that i barely understand myself despite writing it is inbound
                 int cord = positions[cord2][cord1];
                 if (cord == 2) {
                     switch (cord2) {
@@ -89,11 +94,9 @@ public class checkers {
                                         if ((cord2-1) > 0) {
                                             if (positions[cord2-2][cord1-2] == 0) {
                                                 System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                // I was encountering issues so i just went with +""+ to satisfy it. Maybe it was trying to add it together. No clue.
                                                 legalcheck++;
                                                 tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                // I decided to use this to check the legality of a move once you input your intended target.
-                                                // The percent sign is a signal to the code that this move contains a jump.
+                                                
                                             }
                                         }
                                         break;
@@ -274,7 +277,6 @@ public class checkers {
                                 if (tstring.charAt(i) == char3) {
                                     if (tstring.charAt(i+1) == char4) {
                                        if (i+2 <= tstring.length()) {
-                                           // Being extremely careful to not go outside the length of the string
                                            if (tstring.charAt(i+2) == '%') {
                                                intcheck = 2;
                                            } else {
@@ -295,16 +297,72 @@ public class checkers {
                                 x=1;
                                 break;
                             case 2:
+                                positions[cord2][cord1] = 0;
+                                positions[cord4][cord3] = 0;
                                 int cord6 = cord4+(cord4-cord2);
                                 int cord5 = cord3+(cord3-cord1);
                                 positions[cord6][cord5] = cord;
-                                // This formula will calculate the direction the jump should go
                                 x=1;
                                 Boolean done = false;
                                 while (done==false) {
-                                    done = true;
+                                    Boolean jumped = false;
+                                    if (cord3-cord1 > 0) {
+                                        System.out.println("here1");
+                                        if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
+                                            System.out.println("here2");
+                                            if (positions[cord6+1][cord5+1] != cord && positions[cord5+1][cord6+1] != 0) {
+                                                if (positions[cord6+2][cord5+2] == 0) {
+                                                    System.out.println("Double jump possible, being executed.");
+                                                    positions[cord6][cord5] = 0;
+                                                    positions[cord6+1][cord5+1] = 0;
+                                                    positions[cord6+2][cord5+2] = cord;
+                                                    jumped = true;
+                                                }
+                                            }
+                                            if (positions[cord6-1][cord5+1] != cord && positions[cord6-1][cord5+1] != 0) {
+                                                if (positions[cord6-2][cord5+2] == 0) {
+                                                    if (positions[cord6][cord5] == cord) {
+                                                        System.out.println("Double jump possible, being executed.");
+                                                        positions[cord6][cord5] = 0;
+                                                        positions[cord6-1][cord5+1] = 0;
+                                                        positions[cord6-2][cord5+2] = cord;
+                                                        jumped = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("here4");
+                                       if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
+                                           System.out.println("here1");
+                                            if (positions[cord6-1][cord5-1] != cord && positions[cord5+1][cord6+1] != 0) {
+                                                if (positions[cord6-2][cord5-2] == 0) {
+                                                    System.out.println("Double jump possible, being executed.");
+                                                    positions[cord6][cord5] = 0;
+                                                    positions[cord6-1][cord5-1] = 0;
+                                                    positions[cord6-2][cord5-2] = cord;
+                                                    jumped = true;
+                                                }
+                                            }
+                                            if (positions[cord6+1][cord5-1] != cord && positions[cord6-1][cord5+1] != 0) {
+                                                if (positions[cord6+2][cord5-2] == 0) {
+                                                    if (positions[cord6][cord5] == cord) {
+                                                        System.out.println("Double jump possible, being executed.");
+                                                        positions[cord6][cord5] = 0;
+                                                        positions[cord6+1][cord5-1] = 0;
+                                                        positions[cord6+2][cord5-2] = cord;
+                                                        jumped = true;
+                                                    }
+                                                }
+                                            }
+                                        } 
+                                    }
+                                    if (jumped == false) {
+                                        done = true;
+                                    }
                                     // Need to check perimeters to allow for multi jumping.
                                     // For instance, is the position out of bounds?
+                                    // Currently it is too overbearing. Needs to fuck off
                                 }
                                 break;
                             default:
