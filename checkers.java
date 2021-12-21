@@ -45,22 +45,24 @@ public class Main {
         // This is for testing the multi-jump.
         // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
         // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
-        int j = 0; while (j==0) {
-            System.out.println("    1   2   3   4   5   6   7   8 ");
-            System.out.println("   --- --- --- --- --- --- --- ---");
-            for (int i=0; i<8;i++) {
-                for (int i2=0; i2<8;i2++) {
-                    if (i2 < 7) {
-                        if (i2==0) {
-                            System.out.print(a[i] + " ");
-                        }
-                        System.out.print("| " + positions[i2][i] + " ");
-                    } else {
-                        System.out.print("| " + positions[i2][i] + " |");
-                    }
-                }
-                System.out.println("");
+        int j = 0; int k = 0; while (j==0) {
+            if (k == 0) {
+                System.out.println("    1   2   3   4   5   6   7   8 ");
                 System.out.println("   --- --- --- --- --- --- --- ---");
+                for (int i=0; i<8;i++) {
+                    for (int i2=0; i2<8;i2++) {
+                        if (i2 < 7) {
+                            if (i2==0) {
+                                System.out.print(a[i] + " ");
+                            }
+                            System.out.print("| " + positions[i2][i] + " ");
+                        } else {
+                            System.out.print("| " + positions[i2][i] + " |");
+                        }
+                    }
+                    System.out.println("");
+                    System.out.println("   --- --- --- --- --- --- --- ---");
+                }
             }
             System.out.println("Enter coordinate of piece");
             String input = scan.nextLine().toUpperCase();
@@ -81,6 +83,7 @@ public class Main {
                 System.out.println("ERROR: Letter is not within board space (A-H)");
             }
             if (work == true) {
+                
                 // Using logic perimeters, these pieces can be moved if the move is legal.
                 // However this would need to be rewritten to support kings as it is solely to support normal pieces
                 // and has 0 infrastructure to support kings.
@@ -151,6 +154,10 @@ public class Main {
                                         legalcheck++;
                                         tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
                                         break;
+                                    default:
+                                        System.out.println("There are no legal moves for this piece!");
+                                        k=1;
+                                        break;
                                 }
                             }
                             break;
@@ -170,6 +177,11 @@ public class Main {
                                     case 1:
                                         System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
                                         tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                        legalcheck++;
+                                        break;
+                                    default:
+                                        System.out.println("There are no legal moves for this piece!");
+                                        k=1;
                                         break;
                                 }    
                                     
@@ -223,7 +235,32 @@ public class Main {
                             }
                             break;
                         case 0:
-                            if (positions[cord2-1][cord1+1] != cord) {
+                            if (positions[cord2+1][cord1+1] != cord) {
+                                switch (positions[cord2-1][cord1+1] + 1) {
+                                    case 3:
+                                        if ((cord2+1) < 7) {
+                                            if (positions[cord2+2][cord1+2] == 0) {
+                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
+                                                legalcheck++;
+                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                                
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                        legalcheck++;
+                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                        break;
+                                    default:
+                                        System.out.println("There are no legal moves for this piece!");
+                                        k=1;
+                                        break;
+                                }
+                            }
+                            break;
+                        case 7:
+                            if (positions[cord2-1][cord+1] != cord) {
                                 switch (positions[cord2-1][cord1+1] + 1) {
                                     case 3:
                                         if ((cord2+1) < 7) {
@@ -237,28 +274,11 @@ public class Main {
                                         break;
                                     case 1:
                                         System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                        legalcheck++;
                                         tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
                                         break;
-                                }
-                            }
-                            break;
-                        case 7:
-                            if (positions[cord2+1][cord+1] != cord) {
-                                switch (positions[cord2+1][cord1+1] + 1) {
-                                    case 3:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2+2][cord1+2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                
-                                            }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                    default:
+                                        System.out.println("There are no legal moves for this piece!");
+                                        k=1;
                                         break;
                                 }    
                                     
@@ -267,9 +287,10 @@ public class Main {
                     }
                 } else if (cord == 0) {
                     System.out.println("There is no checker piece at this spot! (" +letters.charAt(cord1)+""+numbers.charAt(cord2)+")");
+                    k=1;
                 }
                 if (legalcheck > 0) {
-                    int x=0;
+                    int x=0; int l=0;
                     while (x==0) {
                         System.out.println("Enter target coordinate");
                         String input2 = scan.nextLine().toUpperCase();
@@ -395,7 +416,13 @@ public class Main {
                                 break;
                             default:
                                 System.out.println("Invalid move.");
+                                l=1;k=1;
                                 break;
+                        }
+                        if (l==0) {
+                            k = 0;
+                        } else {
+                            l = 0;
                         }
                     }
                 }
