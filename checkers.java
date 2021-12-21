@@ -283,7 +283,7 @@ public class Main {
                                 if (tstring.charAt(i) == char3) {
                                     if (tstring.charAt(i+1) == char4) {
                                        // Being extra careful to not go out of bounds
-                                       if (i+2 <= tstring.length()) {
+                                       if (i+2 < tstring.length()) {
                                            if (tstring.charAt(i+2) == '%') {
                                                intcheck = 2;
                                            } else {
