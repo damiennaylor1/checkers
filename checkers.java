@@ -37,7 +37,7 @@ public class Main {
         String letters = "ABCDEFGH"; 
         String numbers = "12345678";
         String[] a = {"A","B","C","D","E","F","G","H"};
-        
+        int turn = 0;
         /*positions[2][0] = 1;
         positions[3][5] = 2;
         positions[3][3] = 2;
@@ -45,6 +45,39 @@ public class Main {
         // This is for testing the multi-jump.
         // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
         // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
+        System.out.println("Welcome to checkers!");
+        System.out.println("Would you like to coinflip to decide who goes first, or choose?");
+        String CorC = scan.nextLine().toLowerCase();
+        if (CorC.equals("coinflip") || CorC.equals("coin flip") || CorC.equals("coin") || CorC.equals("flip")) {
+            int chance = (int)(Math.random()*2+1);
+            switch(chance) {
+                case 1:
+                    System.out.println("It is heads. Player 1 goes first.");
+                    turn=1;
+                    break;
+                case 2:
+                    System.out.println("It is tails. Player 2 goes first.");
+                    turn=2;
+                    break;
+                default:
+                    System.out.println("ERROR: Coinflip is less than 1 or greater than 2");
+                    System.out.println("Player 2 is chosen due to this error.");
+                    // There should be 0 scenarios where this is executed but just in case.
+                    break;
+            }
+        } else if (CorC.equals("choose") || CorC.equals("pick")) {
+            Boolean chosen = false;
+            do{
+                System.out.println("Type 1 or 2 to decide who goes first.");
+                int chosep = scan.nextInt();
+                if (chosep==1 || chosep==2) {
+                    turn=chosep;
+                    chosen=true;
+                } else {
+                    System.out.println("INVALID NUMBER, MUST BE (1-2)");
+                }
+            }while(chosen==false);
+        }
         int j = 0; int k = 0; while (j==0) {
             if (k == 0) {
                 System.out.println("    1   2   3   4   5   6   7   8 ");
@@ -62,6 +95,14 @@ public class Main {
                     }
                     System.out.println("");
                     System.out.println("   --- --- --- --- --- --- --- ---");
+                }
+                switch(turn) {
+                    case 1:
+                        System.out.println("Player 1's turn!");
+                        break;
+                    case 2:
+                        System.out.println("Player 2's turn!");
+                        break;
                 }
             }
             System.out.println("Enter coordinate of piece");
@@ -83,211 +124,230 @@ public class Main {
                 System.out.println("ERROR: Letter is not within board space (A-H)");
             }
             if (work == true) {
-                
                 // Using logic perimeters, these pieces can be moved if the move is legal.
                 // However this would need to be rewritten to support kings as it is solely to support normal pieces
                 // and has 0 infrastructure to support kings.
                 int cord = positions[cord2][cord1];
                 if (cord == 2) {
-                    switch (cord2) {
-                        // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            if (positions[cord2-1][cord1-1] != cord) {
-                                switch (positions[cord2-1][cord1-1] + 1) {
-                                    case 2:
-                                        if ((cord2-1) > 0) {
-                                            if (positions[cord2-2][cord1-2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                
+                    if (turn == 2) {
+                        switch (cord2) {
+                            // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                                if (positions[cord2-1][cord1-1] != cord) {
+                                    switch (positions[cord2-1][cord1-1] + 1) {
+                                        case 2:
+                                            if ((cord2-1) > 0) {
+                                                if (positions[cord2-2][cord1-2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
-                                        break;
-                                }    
-                                    
-                            }
-                            if (positions[cord2+1][cord1-1] != cord) {
-                                switch (positions[cord2+1][cord1-1] + 1) {
-                                    case 2:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2+2][cord1-2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                
-                                            }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
-                                        break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                            break;
+                                    }    
+                                        
                                 }
-                            }
-                            break;
-                        case 0:
-                            if (positions[cord2+1][cord1-1] != cord) {
-                                switch (positions[cord2+1][cord1-1] + 1) {
-                                    case 2:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2+2][cord1-2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                
+                                if (positions[cord2+1][cord1-1] != cord) {
+                                    switch (positions[cord2+1][cord1-1] + 1) {
+                                        case 2:
+                                            if ((cord2+1) < 7) {
+                                                if (positions[cord2+2][cord1-2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
-                                        break;
-                                    default:
-                                        System.out.println("There are no legal moves for this piece!");
-                                        k=1;
-                                        break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
+                                            break;
+                                    }
                                 }
-                            }
-                            break;
-                        case 7:
-                            if (positions[cord2-1][cord-1] != cord) {
-                                switch (positions[cord2-1][cord1-1] + 1) {
-                                    case 2:
-                                        if ((cord2-1) > 0) {
-                                            if (positions[cord2-2][cord1-2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                
+                                if (legalcheck == 0) {
+                                    System.out.println("There are no legal moves for this piece!");
+                                    k=1;
+                                    break;
+                                }
+                                break;
+                            case 0:
+                                if (positions[cord2+1][cord1-1] != cord) {
+                                    switch (positions[cord2+1][cord1-1] + 1) {
+                                        case 2:
+                                            if ((cord2+1) < 7) {
+                                                if (positions[cord2+2][cord1-2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
-                                        legalcheck++;
-                                        break;
-                                    default:
-                                        System.out.println("There are no legal moves for this piece!");
-                                        k=1;
-                                        break;
-                                }    
-                                    
-                            }
-                            break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
+                                            break;
+                                        default:
+                                            System.out.println("There are no legal moves for this piece!");
+                                            k=1;
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 7:
+                                if (positions[cord2-1][cord-1] != cord) {
+                                    switch (positions[cord2-1][cord1-1] + 1) {
+                                        case 2:
+                                            if ((cord2-1) > 0) {
+                                                if (positions[cord2-2][cord1-2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                                    
+                                                }
+                                            }
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                            legalcheck++;
+                                            break;
+                                        default:
+                                            System.out.println("There are no legal moves for this piece!");
+                                            k=1;
+                                            break;
+                                    }    
+                                        
+                                }
+                                break;
+                        }
+                    } else {
+                        System.out.println("That is not your piece!");
+                        k=1;
                     }
                 } else if (cord == 1) {
-                    switch (cord2) {
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            if (positions[cord2+1][cord1+1] != cord) {
-                                switch (positions[cord2+1][cord1+1] + 1) {
-                                    case 3:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2+2][cord1+2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                
+                    if (turn==1) {
+                        switch (cord2) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                                if (positions[cord2+1][cord1+1] != cord) {
+                                    switch (positions[cord2+1][cord1+1] + 1) {
+                                        case 3:
+                                            if ((cord2+1) < 7) {
+                                                if (positions[cord2+2][cord1+2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
-                                        break;
-                                }    
-                            }
-                            if (positions[cord2-1][cord1+1] != cord) {
-                                switch (positions[cord2-1][cord1+1] + 1) {
-                                    case 3:
-                                        if ((cord2-1) > 0) {
-                                            if (positions[cord2-2][cord1+2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                
-                                            }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
-                                        break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                            break;
+                                    }    
                                 }
-                            }
-                            break;
-                        case 0:
-                            if (positions[cord2+1][cord1+1] != cord) {
-                                switch (positions[cord2-1][cord1+1] + 1) {
-                                    case 3:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2+2][cord1+2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                
+                                if (positions[cord2-1][cord1+1] != cord) {
+                                    switch (positions[cord2-1][cord1+1] + 1) {
+                                        case 3:
+                                            if ((cord2-1) > 0) {
+                                                if (positions[cord2-2][cord1+2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                        legalcheck++;
-                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
-                                        break;
-                                    default:
-                                        System.out.println("There are no legal moves for this piece!");
-                                        k=1;
-                                        break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                            break;
+                                    }
                                 }
-                            }
-                            break;
-                        case 7:
-                            
-                            if (positions[cord2-1][cord+1] != cord) {
-                                switch (positions[cord2-1][cord1+1] + 1) {
-                                    case 3:
-                                        if ((cord2+1) < 7) {
-                                            if (positions[cord2-2][cord1+2] == 0) {
-                                                System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                legalcheck++;
-                                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                
+                                if (legalcheck == 0) {
+                                    System.out.println("There are no legal moves for this piece!");
+                                    k=1;
+                                    break;
+                                }
+                                break;
+                            case 0:
+                                if (positions[cord2+1][cord1+1] != cord) {
+                                    switch (positions[cord2-1][cord1+1] + 1) {
+                                        case 3:
+                                            if ((cord2+1) < 7) {
+                                                if (positions[cord2+2][cord1+2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                                    
+                                                }
                                             }
-                                        }
-                                        break;
-                                    case 1:
-                                        System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
-                                        legalcheck++;
-                                        break;
-                                    default:
-                                        System.out.println("There are no legal moves for this piece!");
-                                        k=1;
-                                        break;
-                                }    
-                                    
-                            }
-                            break;
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                            break;
+                                        default:
+                                            System.out.println("There are no legal moves for this piece!");
+                                            k=1;
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 7:
+                                
+                                if (positions[cord2-1][cord+1] != cord) {
+                                    switch (positions[cord2-1][cord1+1] + 1) {
+                                        case 3:
+                                            if ((cord2+1) < 7) {
+                                                if (positions[cord2-2][cord1+2] == 0) {
+                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                    legalcheck++;
+                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                                    
+                                                }
+                                            }
+                                            break;
+                                        case 1:
+                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                            legalcheck++;
+                                            break;
+                                        default:
+                                            System.out.println("There are no legal moves for this piece!");
+                                            k=1;
+                                            break;
+                                    }    
+                                        
+                                }
+                                break;
+                        }
+                    } else {
+                        System.out.println("That is not your piece!");
+                        k=1;
                     }
                 } else if (cord == 0) {
                     System.out.println("There is no checker piece at this spot! (" +letters.charAt(cord1)+""+numbers.charAt(cord2)+")");
@@ -425,6 +485,10 @@ public class Main {
                         }
                         if (l==0) {
                             k = 0;
+                            switch(turn){
+                                case 1: turn=2; break;
+                                case 2: turn=1; break;
+                            }
                         } else {
                             l = 0;
                         }
