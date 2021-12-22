@@ -97,7 +97,7 @@ public class Main {
                         case 4:
                         case 5:
                         case 6:
-                            if (positions[cord2-1][cord-1] != cord) {
+                            if (positions[cord2-1][cord1-1] != cord) {
                                 switch (positions[cord2-1][cord1-1] + 1) {
                                     case 2:
                                         if ((cord2-1) > 0) {
@@ -197,7 +197,7 @@ public class Main {
                         case 4:
                         case 5:
                         case 6:
-                            if (positions[cord2+1][cord+1] != cord) {
+                            if (positions[cord2+1][cord1+1] != cord) {
                                 switch (positions[cord2+1][cord1+1] + 1) {
                                     case 3:
                                         if ((cord2+1) < 7) {
@@ -262,6 +262,7 @@ public class Main {
                             }
                             break;
                         case 7:
+                            
                             if (positions[cord2-1][cord+1] != cord) {
                                 switch (positions[cord2-1][cord1+1] + 1) {
                                     case 3:
