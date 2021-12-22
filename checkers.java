@@ -285,11 +285,13 @@ public class Main {
                                         switch (positions[cord2-1][cord1+1] + 1) {
                                             case 3:
                                                 if ((cord2-1) > 0) {
-                                                    if (positions[cord2-2][cord1+2] == 0) {
-                                                        System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                        legalcheck++;
-                                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                        
+                                                    if (cord2-2 >= 0) {
+                                                        if (positions[cord2-2][cord1+2] == 0) {
+                                                            System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
+                                                            legalcheck++;
+                                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                                            
+                                                        }
                                                     }
                                                 }
                                                 break;
@@ -308,7 +310,7 @@ public class Main {
                                     break;
                                 case 0:
                                     if (positions[cord2+1][cord1+1] != cord) {
-                                        switch (positions[cord2-1][cord1+1] + 1) {
+                                        switch (positions[cord2+1][cord1+1] + 1) {
                                             case 3:
                                                 if ((cord2+1) < 7) {
                                                     if (positions[cord2+2][cord1+2] == 0) {
@@ -498,7 +500,7 @@ public class Main {
                                     break;
                             }
                             if (l==0) {
-                                k = 0;
+                                k = 0; o=0;
                                 switch(turn){
                                     case 1: turn=2; break;
                                     case 2: turn=1; break;
