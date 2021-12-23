@@ -46,37 +46,44 @@ public class Main {
         // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
         // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
         System.out.println("Welcome to checkers!");
-        System.out.println("Would you like to coinflip to decide who goes first, or choose?");
-        String CorC = scan.nextLine().toLowerCase();
-        if (CorC.equals("coinflip") || CorC.equals("coin flip") || CorC.equals("coin") || CorC.equals("flip")) {
-            int chance = (int)(Math.random()*2+1);
-            switch(chance) {
-                case 1:
-                    System.out.println("It is heads. Player 1 goes first.");
-                    turn=1;
-                    break;
-                case 2:
-                    System.out.println("It is tails. Player 2 goes first.");
-                    turn=2;
-                    break;
-                default:
-                    System.out.println("ERROR: Coinflip is less than 1 or greater than 2");
-                    System.out.println("Player 2 is chosen due to this error.");
-                    // There should be 0 scenarios where this is executed but just in case.
-                    break;
-            }
-        } else if (CorC.equals("choose") || CorC.equals("pick")) {
-            Boolean chosen = false;
-            do{
-                System.out.println("Type 1 or 2 to decide who goes first.");
-                int chosep = scan.nextInt();
-                if (chosep==1 || chosep==2) {
-                    turn=chosep;
-                    chosen=true;
-                } else {
-                    System.out.println("INVALID NUMBER, MUST BE (1-2)");
+        int free=0;
+        System.out.println("Do you wish to enable free play? (no turns)");
+        String freeornot = scan.nextLine();
+        if (freeornot.toLowerCase().equals("yes")) {
+            free = 1;
+        } else {
+            System.out.println("Would you like to coinflip to decide who goes first, or choose?");
+            String CorC = scan.nextLine().toLowerCase();
+            if (CorC.equals("coinflip") || CorC.equals("coin flip") || CorC.equals("coin") || CorC.equals("flip")) {
+                int chance = (int)(Math.random()*2+1);
+                switch(chance) {
+                    case 1:
+                        System.out.println("It is heads. Player 1 goes first.");
+                        turn=1;
+                        break;
+                    case 2:
+                        System.out.println("It is tails. Player 2 goes first.");
+                        turn=2;
+                        break;
+                    default:
+                        System.out.println("ERROR: Coinflip is less than 1 or greater than 2");
+                        System.out.println("Player 2 is chosen due to this error.");
+                        // There should be 0 scenarios where this is executed but just in case.
+                        break;
                 }
-            }while(chosen==false);
+            } else if (CorC.equals("choose") || CorC.equals("pick")) {
+                Boolean chosen = false;
+                do{
+                    System.out.println("Type 1 or 2 to decide who goes first.");
+                    int chosep = scan.nextInt();
+                    if (chosep==1 || chosep==2) {
+                        turn=chosep;
+                        chosen=true;
+                    } else {
+                        System.out.println("INVALID NUMBER, MUST BE (1-2)");
+                    }
+                }while(chosen==false);
+            }
         }
         int o=0;
         int j = 0; int k = 0; while (j==0) {
@@ -143,7 +150,7 @@ public class Main {
                     // and has 0 infrastructure to support kings.
                     int cord = positions[cord2][cord1];
                     if (cord == 2) {
-                        if (turn == 2) {
+                        if (turn == 2 || free == 1) {
                             switch (cord2) {
                                 // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
                                 case 1:
@@ -254,7 +261,7 @@ public class Main {
                             k=1;
                         }
                     } else if (cord == 1) {
-                        if (turn==1) {
+                        if (turn==1 || free == 1) {
                             switch (cord2) {
                                 case 1:
                                 case 2:
@@ -368,7 +375,7 @@ public class Main {
                     } else if (cord == 0) {
                         System.out.println("There is no checker piece at this spot! (" +letters.charAt(cord1)+""+numbers.charAt(cord2)+")");
                         k=1;
-                    } else if (cord == 3 || cord == 4) {
+                    } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
                         if (cord1-1 >= 0) {
                             if (cord2-1 >= 0) {
                                 if (positions[cord2-1][cord1-1] != cord) {
@@ -387,86 +394,6 @@ public class Main {
                                         case 1:
                                             System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2-1) + " is a legal move.");
                                             tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
-                                            legalcheck++;
-                                            break;
-                                        default:
-                                            System.out.println("There are no legal moves for this piece!");
-                                            k=1;
-                                            break;
-                                    }    
-                                }
-                            }
-                            if (cord2+1 <= 7) {
-                                if (positions[cord2+1][cord1+1] != cord) {
-                                    switch (positions[cord2+1][cord1+1] + 1) {
-                                        case 2:
-                                        case 3:
-                                            if (cord2+2 <= 7 && cord1-2 >= 0) {
-                                                if (positions[cord2+2][cord1+2] == 0) {
-                                                    System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                    legalcheck++;
-                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                    
-                                                }
-                                            }
-                                            break;
-                                        case 1:
-                                            System.out.println(letters.charAt(cord1-1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
-                                            legalcheck++;
-                                            break;
-                                        default:
-                                            System.out.println("There are no legal moves for this piece!");
-                                            k=1;
-                                            break;
-                                    }    
-                                }
-                            }
-                        }
-                        if (cord1+1 <= 7) {
-                            if (cord2-1 >= 0) {
-                                if (positions[cord2-1][cord1+1] != cord) {
-                                    switch (positions[cord2-1][cord1+1] + 1) {
-                                        case 2:
-                                        case 3:
-                                            if (cord2-2 >= 0 && cord1+2 <= 7) {
-                                                if (positions[cord2-2][cord1+2] == 0) {
-                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2-1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2-2)+" is available.");
-                                                    legalcheck++;
-                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
-                                                    
-                                                }
-                                            }
-                                            break;
-                                        case 1:
-                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2-1) + " is a legal move.");
-                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
-                                            legalcheck++;
-                                            break;
-                                        default:
-                                            System.out.println("There are no legal moves for this piece!");
-                                            k=1;
-                                            break;
-                                    }    
-                                }
-                            }
-                            if (cord2+1 <= 7) {
-                                if (positions[cord2+1][cord1+1] != cord) {
-                                    switch (positions[cord2+1][cord1+1] + 1) {
-                                        case 2:
-                                        case 3:
-                                            if (cord2+2 <= 7 && cord1+2 <= 7) {
-                                                if (positions[cord2+2][cord1+2] == 0) {
-                                                    System.out.println("A piece take from "+letters.charAt(cord1+1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1+2)+""+numbers.charAt(cord2+2)+" is available.");
-                                                    legalcheck++;
-                                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                    
-                                                }
-                                            }
-                                            break;
-                                        case 1:
-                                            System.out.println(letters.charAt(cord1+1)+""+numbers.charAt(cord2+1) + " is a legal move.");
-                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                             legalcheck++;
                                             break;
                                         default:
