@@ -41,7 +41,7 @@ public class Main {
         /* positions[2][0] = 4;
         positions[3][5] = 2;
         positions[3][3] = 2;
-        positions[3][1] = 2;*/
+        positions[3][1] = 2;//*/
         // This is for testing the multi-jump.
         // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
         // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
@@ -554,6 +554,9 @@ public class Main {
                                                             jumped = true;
                                                             cord6 = cord6+2;
                                                             cord5 = cord5+2;
+                                                            if (cord5 == 7 && cord == 1) {
+                                                                positions[cord6][cord5] = 3;
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -568,6 +571,9 @@ public class Main {
                                                                 jumped = true;
                                                                 cord6 = cord6-2;
                                                                 cord5 = cord5+2;
+                                                                if (cord5 == 7 && cord == 1) {
+                                                                    positions[cord6][cord5] = 3;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -587,6 +593,9 @@ public class Main {
                                                             jumped = true;
                                                             cord6 = cord6-2;
                                                             cord5 = cord5-2;
+                                                            if (cord5 == 0 && cord == 2) {
+                                                                positions[cord6][cord5] = 4;
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -601,6 +610,9 @@ public class Main {
                                                                 jumped = true;
                                                                 cord6 = cord6+2;
                                                                 cord5 = cord5-2;
+                                                                if (cord5 == 0 && cord == 2) {
+                                                                    positions[cord6][cord5] = 4;
+                                                                }
                                                             }
                                                         }
                                                     }
