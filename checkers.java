@@ -372,7 +372,7 @@ public class Main {
                         if (cord1-1 >= 0) {
                             if (cord2-1 >= 0) {
                                 if (positions[cord2-1][cord1-1] != cord) {
-                                    switch (positions[cord2-1][cord1+1] + 1) {
+                                    switch (positions[cord2-1][cord1-1] + 1) {
                                         case 2:
                                         case 3:
                                             if (cord2-2 >= 0 && cord1-2 >= 0) {
@@ -397,12 +397,12 @@ public class Main {
                                 }
                             }
                             if (cord2+1 <= 7) {
-                                if (positions[cord2+1][cord1-1] != cord) {
+                                if (positions[cord2+1][cord1+1] != cord) {
                                     switch (positions[cord2+1][cord1+1] + 1) {
                                         case 2:
                                         case 3:
                                             if (cord2+2 <= 7 && cord1-2 >= 0) {
-                                                if (positions[cord2+2][cord1-2] == 0) {
+                                                if (positions[cord2+2][cord1+2] == 0) {
                                                     System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
                                                     legalcheck++;
                                                     tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
