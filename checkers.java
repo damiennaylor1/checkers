@@ -1,9 +1,36 @@
 import java.util.Scanner;
-public class Main {
-    public static void main(String args[]) {
+public class checkers {
+    int[][] positions = new int[8][8];
+    String[] a = {"A","B","C","D","E","F","G","H"};
+    Scanner scan = new Scanner(System.in);
+    public void print() {
+        System.out.println("    1   2   3   4   5   6   7   8 ");
+        System.out.println("   --- --- --- --- --- --- --- ---");
+        for (int i=0; i<8;i++) {
+            for (int i2=0; i2<8;i2++) {
+                if (i2 < 7) {
+                    if (i2==0) {
+                        System.out.print(a[i] + " ");
+                    }
+                    if (positions[i2][i] < 3) {
+                        System.out.print("| " + positions[i2][i] + " ");
+                    } else {
+                        System.out.print("|" + (positions[i2][i]-2)+"-K");
+                    }
+                } else {
+                    if (positions[i2][i] < 3) {
+                        System.out.print("| " + positions[i2][i] + " |");
+                    } else {
+                        System.out.print("|" + (positions[i2][i]-2)+"-K|");
+                    }
+                }
+            }
+            System.out.println("");
+            System.out.println("   --- --- --- --- --- --- --- ---");
+        }
+    }
+    public void main() {
         // Set the player checkers
-        Scanner scan = new Scanner(System.in);
-        int [][] positions = new int[8][8];
         // /*
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) { 
@@ -38,7 +65,6 @@ public class Main {
         //positions[6][7] = 0;
         String letters = "ABCDEFGH"; 
         String numbers = "12345678";
-        String[] a = {"A","B","C","D","E","F","G","H"};
         int turn = 0;
         /* positions[2][0] = 4;
         positions[3][5] = 2;
@@ -90,30 +116,7 @@ public class Main {
         int o=0;
         int j = 0; int k = 0; while (j==0) {
             if (k == 0) {
-                System.out.println("    1   2   3   4   5   6   7   8 ");
-                System.out.println("   --- --- --- --- --- --- --- ---");
-                for (int i=0; i<8;i++) {
-                    for (int i2=0; i2<8;i2++) {
-                        if (i2 < 7) {
-                            if (i2==0) {
-                                System.out.print(a[i] + " ");
-                            }
-                            if (positions[i2][i] < 3) {
-                                System.out.print("| " + positions[i2][i] + " ");
-                            } else {
-                                System.out.print("|" + (positions[i2][i]-2)+"-K");
-                            }
-                        } else {
-                            if (positions[i2][i] < 3) {
-                                System.out.print("| " + positions[i2][i] + " |");
-                            } else {
-                                System.out.print("|" + (positions[i2][i]-2)+"-K|");
-                            }
-                        }
-                    }
-                    System.out.println("");
-                    System.out.println("   --- --- --- --- --- --- --- ---");
-                }
+                print();
                 switch(turn) {
                     case 1:
                         System.out.println("Player 1's turn!");
@@ -545,17 +548,29 @@ public class Main {
                                     System.out.println((cord4-cord2)+" "+(cord3-cord1));
                                     */
                                     x=1;
-                                    Boolean done = false;
+                                    Boolean done = false; int jumpcount = 0;
                                     while (done==false) {
                                         Boolean jumped = false;
                                         if (cord3-cord1 > 0) {
-                                            System.out.println("here1");
                                             //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) { <-- These commented if statements need to be removed, too lazy at the moment
-                                                System.out.println("here2");
                                                 if (cord6<6 && cord5<6) {
                                                     if (positions[cord6+1][cord5+1] != cord && positions[cord6+1][cord5+1] != 0) {
                                                         if (positions[cord6+2][cord5+2] == 0) {
-                                                            System.out.println("Double jump possible, being executed.");
+                                                            switch (jumpcount) {
+                                                                case 0:
+                                                                    jumpcount++;
+                                                                    System.out.println("Double jump!");
+                                                                    break;
+                                                                case 1:
+                                                                    jumpcount++;
+                                                                    System.out.println("Triple jump!");
+                                                                    break;
+                                                                case 3:
+                                                                    jumpcount++;
+                                                                    System.out.println("Quadruple jump!");
+                                                                    // Don't think this is possible?
+                                                                    break;
+                                                            }
                                                             positions[cord6][cord5] = 0;
                                                             positions[cord6+1][cord5+1] = 0;
                                                             positions[cord6+2][cord5+2] = cord;
@@ -565,6 +580,8 @@ public class Main {
                                                             if (cord5 == 7 && cord == 1) {
                                                                 positions[cord6][cord5] = 3;
                                                             }
+                                                            print();
+                                                            k=1;
                                                         }
                                                     }
                                                 }
@@ -572,7 +589,21 @@ public class Main {
                                                     if (positions[cord6-1][cord5+1] != cord && positions[cord6-1][cord5+1] != 0) {
                                                         if (positions[cord6-2][cord5+2] == 0) {
                                                             if (positions[cord6][cord5] == cord) {
-                                                                System.out.println("Double jump possible, being executed.");
+                                                                switch (jumpcount) {
+                                                                    case 0:
+                                                                        jumpcount++;
+                                                                        System.out.println("Double jump!");
+                                                                        break;
+                                                                    case 1:
+                                                                        jumpcount++;
+                                                                        System.out.println("Triple jump!");
+                                                                        break;
+                                                                    case 3:
+                                                                        jumpcount++;
+                                                                        System.out.println("Quadruple jump!");
+                                                                        // Don't think this is possible?
+                                                                        break;
+                                                                }
                                                                 positions[cord6][cord5] = 0;
                                                                 positions[cord6-1][cord5+1] = 0;
                                                                 positions[cord6-2][cord5+2] = cord;
@@ -582,19 +613,33 @@ public class Main {
                                                                 if (cord5 == 7 && cord == 1) {
                                                                     positions[cord6][cord5] = 3;
                                                                 }
+                                                                print();
+                                                                k=1;
                                                             }
                                                         }
                                                     }
                                                 }
                                             //}
                                         } else {
-                                            System.out.println("here4");
                                             //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
-                                                System.out.println("here1");
                                                 if (cord6>1 && cord5>1) {
                                                     if (positions[cord6-1][cord5-1] != cord && positions[cord6-1][cord5-1] != 0) {
                                                         if (positions[cord6-2][cord5-2] == 0) {
-                                                            System.out.println("Double jump possible, being executed.");
+                                                            switch (jumpcount) {
+                                                                case 0:
+                                                                    jumpcount++;
+                                                                    System.out.println("Double jump!");
+                                                                    break;
+                                                                case 1:
+                                                                    jumpcount++;
+                                                                    System.out.println("Triple jump!");
+                                                                    break;
+                                                                case 3:
+                                                                    jumpcount++;
+                                                                    System.out.println("Quadruple jump!");
+                                                                    // Don't think this is possible?
+                                                                    break;
+                                                            }
                                                             positions[cord6][cord5] = 0;
                                                             positions[cord6-1][cord5-1] = 0;
                                                             positions[cord6-2][cord5-2] = cord;
@@ -604,6 +649,8 @@ public class Main {
                                                             if (cord5 == 0 && cord == 2) {
                                                                 positions[cord6][cord5] = 4;
                                                             }
+                                                            print();
+                                                            k=1;
                                                         }
                                                     }
                                                 }
@@ -611,7 +658,21 @@ public class Main {
                                                     if (positions[cord6+1][cord5-1] != cord && positions[cord6+1][cord5-1] != 0) {
                                                         if (positions[cord6+2][cord5-2] == 0) {
                                                             if (positions[cord6][cord5] == cord) {
-                                                                System.out.println("Double jump possible, being executed.");
+                                                                switch (jumpcount) {
+                                                                    case 0:
+                                                                        jumpcount++;
+                                                                        System.out.println("Double jump!");
+                                                                        break;
+                                                                    case 1:
+                                                                        jumpcount++;
+                                                                        System.out.println("Triple jump!");
+                                                                        break;
+                                                                    case 3:
+                                                                        jumpcount++;
+                                                                        System.out.println("Quadruple jump!");
+                                                                        // Don't think this is possible?
+                                                                        break;
+                                                                }
                                                                 positions[cord6][cord5] = 0;
                                                                 positions[cord6+1][cord5-1] = 0;
                                                                 positions[cord6+2][cord5-2] = cord;
@@ -621,6 +682,8 @@ public class Main {
                                                                 if (cord5 == 0 && cord == 2) {
                                                                     positions[cord6][cord5] = 4;
                                                                 }
+                                                                print();
+                                                                k=1;
                                                             }
                                                         }
                                                     }
