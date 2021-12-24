@@ -2,7 +2,308 @@ import java.util.Scanner;
 public class checkers {
     int[][] positions = new int[8][8];
     String[] a = {"A","B","C","D","E","F","G","H"};
+    String letters = "ABCDEFGH"; 
+    String numbers = "12345678";
     Scanner scan = new Scanner(System.in);
+    public int moveCheck(int cord2, int cord1, int turn) {
+        int cord = positions[cord2][cord1];
+        String tstring = "";
+        int free = 0; int legalcheck = 0; int k=0;
+        if (cord == 2) {
+            if (turn == 2 || free == 1) {
+                switch (cord2) {
+                    // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        if (positions[cord2-1][cord1-1] != cord) {
+                            switch (positions[cord2-1][cord1-1] + 1) {
+                                case 2:
+                                    if ((cord2-1) > 0 && cord1-1 > 0) {
+                                        if (positions[cord2-2][cord1-2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                    break;
+                            }    
+                                
+                        }
+                        if (positions[cord2+1][cord1-1] != cord) {
+                            switch (positions[cord2+1][cord1-1] + 1) {
+                                case 2:
+                                    if ((cord2+1) < 7 && cord1-1 > 0) {
+                                        if (positions[cord2+2][cord1-2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
+                                    break;
+                            }
+                        }
+                        if (legalcheck == 0) {
+                            k=1;
+                            break;
+                        }
+                        break;
+                    case 0:
+                        if (positions[cord2+1][cord1-1] != cord) {
+                            switch (positions[cord2+1][cord1-1] + 1) {
+                                case 2:
+                                    if ((cord2+1) < 7 && cord1-1 > 0) {
+                                        if (positions[cord2+2][cord1-2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
+                                    break;
+                                default:
+                                    k=1;
+                                    break;
+                            }
+                        }
+                        break;
+                    case 7:
+                        if (positions[cord2-1][cord-1] != cord) {
+                            switch (positions[cord2-1][cord1-1] + 1) {
+                                case 2:
+                                    if ((cord2-1) > 0 && cord1-1 > 0) {
+                                        if (positions[cord2-2][cord1-2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                    legalcheck++;
+                                    break;
+                                default:
+                                    k=1;
+                                    break;
+                            }    
+                                
+                        }
+                        break;
+                }
+            } else {
+            }
+        } else if (cord == 1) {
+            if (turn==1 || free == 1) {
+                switch (cord2) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        if (positions[cord2+1][cord1+1] != cord) {
+                            switch (positions[cord2+1][cord1+1] + 1) {
+                                case 3:
+                                    if ((cord2+1) < 7 && cord1+1 < 7) {
+                                        if (positions[cord2+2][cord1+2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                    break;
+                            }    
+                        }
+                        if (positions[cord2-1][cord1+1] != cord) {
+                            switch (positions[cord2-1][cord1+1] + 1) {
+                                case 3:
+                                    if (cord2-2 >= 0 && cord1+2 <= 7) {
+                                        if (positions[cord2-2][cord1+2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                    break;
+                            }
+                        }
+                        if (legalcheck == 0) {
+                            k=1;
+                            break;
+                        }
+                        break;
+                    case 0:
+                        if (positions[cord2+1][cord1+1] != cord) {
+                            switch (positions[cord2+1][cord1+1] + 1) {
+                                case 3:
+                                    if ((cord2+1) < 7) {
+                                        if (positions[cord2+2][cord1+2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    legalcheck++;
+                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                    break;
+                                default:
+                                    k=1;
+                                    break;
+                            }
+                        }
+                        break;
+                    case 7:
+                        if (positions[cord2-1][cord1+1] != cord) {
+                            switch (positions[cord2-1][cord1+1] + 1) {
+                                case 3:
+                                    if ((cord2+1) < 7) {
+                                        if (positions[cord2-2][cord1+2] == 0) {
+                                            legalcheck++;
+                                            tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                            
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                    legalcheck++;
+                                    break;
+                                default:
+                                    k=1;
+                                    break;
+                            }    
+                                
+                        }
+                        break;
+                }
+            } else {
+            }
+        } else if (cord == 0) {
+            k=1;
+        } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
+            if (cord1-1 >= 0) {
+                if (cord2-1 >= 0) {
+                    if (positions[cord2-1][cord1-1] != cord) {
+                        switch (positions[cord2-1][cord1-1] + 1) {
+                            case 2:
+                            case 3:
+                                if (cord2-2 >= 0 && cord1-2 >= 0) {
+                                    if (positions[cord2-2][cord1-2] == 0) {
+                                        legalcheck++;
+                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                        
+                                    }
+                                }
+                                break;
+                            case 1:
+                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
+                                legalcheck++;
+                                break;
+                            default:
+                                k=1;
+                                break;
+                        }    
+                    }
+                }
+                if (cord2+1 <= 7) {
+                    if (positions[cord2+1][cord1-1] != cord) {
+                        switch (positions[cord2+1][cord1-1] + 1) {
+                            case 2:
+                            case 3:
+                                if (cord2+2 <= 7 && cord1-2 >= 0) {
+                                    if (positions[cord2+2][cord1-2] == 0) {
+                                        legalcheck++;
+                                        tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                        
+                                    }
+                                }
+                                break;
+                            case 1:
+                                tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
+                                legalcheck++;
+                                break;
+                            default:
+                                k=1;
+                                break;
+                        }    
+                    }
+                }
+            }
+            if (cord1+1 <= 7) {
+                if (cord2-1 >= 0) {
+                    if (positions[cord2-1][cord1+1] != cord) {
+                        switch (positions[cord2-1][cord1+1] + 1) {
+                            case 2:
+                            case 3:
+                                if (cord2-2 >= 0 && cord1+2 <= 7) {
+                                    if (positions[cord2-2][cord1+2] == 0) {
+                                        legalcheck++;
+                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1); tstring += '%';
+                                        
+                                    }
+                                }
+                                break;
+                            case 1:
+                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
+                                legalcheck++;
+                                break;
+                            default:
+                                k=1;
+                                break;
+                        }    
+                    }
+                }
+                if (cord2+1 <= 7) {
+                    if (positions[cord2+1][cord1+1] != cord) {
+                        switch (positions[cord2+1][cord1+1] + 1) {
+                            case 2:
+                            case 3:
+                                if (cord2+2 <= 7 && cord1+2 <= 7) {
+                                    if (positions[cord2+2][cord1+2] == 0) {
+                                        legalcheck++;
+                                        tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1); tstring += '%';
+                                        
+                                    }
+                                }
+                                break;
+                            case 1:
+                                tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
+                                legalcheck++;
+                                break;
+                            default:
+                                k=1;
+                                break;
+                        }    
+                    }
+                }
+            }
+        }
+        return legalcheck;
+    }
     public void print() {
         System.out.println("    1   2   3   4   5   6   7   8 ");
         System.out.println("   --- --- --- --- --- --- --- ---");
@@ -31,7 +332,7 @@ public class checkers {
     }
     public void main() {
         // Set the player checkers
-        // /*
+         /*
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) { 
                 //Set player 1 pieces
@@ -61,10 +362,13 @@ public class checkers {
                 }
             }
         } // */
+        positions[5][7] = 2;
+        positions[4][6] = 1;
+        positions[6][6] = 1;
+        positions[3][5] = 1;
+        positions[7][5] = 1;
         //positions[5][6] = 1;
         //positions[6][7] = 0;
-        String letters = "ABCDEFGH"; 
-        String numbers = "12345678";
         int turn = 0;
         /* positions[2][0] = 4;
         positions[3][5] = 2;
@@ -113,7 +417,7 @@ public class checkers {
                 }while(chosen==false);
             }
         }
-        int o=0;
+        int o=0; int winner = 0;
         int j = 0; int k = 0; while (j==0) {
             if (k == 0) {
                 print();
@@ -124,6 +428,27 @@ public class checkers {
                     case 2:
                         System.out.println("Player 2's turn!");
                         break;
+                }
+            }
+            if (free == 0) {
+                int legalmoves=0;
+                for (int i=0;i<8;i++) {
+                    for (int i2=0;i2<8;i2++) {
+                        if (positions[i2][i] == turn) {
+                            int checklegal = moveCheck(i2,i,turn);
+                            legalmoves += checklegal;
+                        }
+                    }
+                }
+                if (legalmoves == 0) {
+                    j = 1;
+                    if (turn == 1) {
+                        winner = 2;
+                    } else {
+                        winner = 1;
+                    }
+                    System.out.println("Player " + turn + " has no legal moves. Player " + winner + " has won!");
+                    break;
                 }
             }
             if (o==0) {
