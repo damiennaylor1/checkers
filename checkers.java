@@ -1,6 +1,7 @@
 import java.util.Scanner;
 public class checkers {
     int[][] positions = new int[8][8];
+    int jumpcount = 0;
     String[] a = {"A","B","C","D","E","F","G","H"};
     String letters = "ABCDEFGH"; 
     String numbers = "12345678";
@@ -330,9 +331,33 @@ public class checkers {
             System.out.println("   --- --- --- --- --- --- --- ---");
         }
     }
+    public void jumpcountprint() {
+        switch (jumpcount) {
+            case 0:
+                jumpcount++;
+                System.out.println("Double jump!");
+                break;
+            case 1:
+                jumpcount++;
+                System.out.println("Triple jump!");
+                break;
+            case 2:
+                jumpcount++;
+                System.out.println("Quadruple jump!");
+                break;
+            case 3:
+                jumpcount++;
+                System.out.println("Quintiple jump!");
+                break;
+            case 4:
+                jumpcount++;
+                System.out.println("Sextuple jump!");
+                break;
+        }
+    }
     public void main() {
         // Set the player checkers
-         /*
+        // /*
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) { 
                 //Set player 1 pieces
@@ -362,21 +387,7 @@ public class checkers {
                 }
             }
         } // */
-        positions[5][7] = 2;
-        positions[4][6] = 1;
-        positions[6][6] = 1;
-        positions[3][5] = 1;
-        positions[7][5] = 1;
-        //positions[5][6] = 1;
-        //positions[6][7] = 0;
         int turn = 0;
-        /* positions[2][0] = 4;
-        positions[3][5] = 2;
-        positions[3][3] = 2;
-        positions[3][1] = 2;//*/
-        // This is for testing the multi-jump.
-        // The issue so far is that it wants to satisfy overprotective requirements that need to be tweaked.
-        // The issues are gone as of current knowledge but edge borders need to be tested to be wary of array outofbounds'
         System.out.println("Welcome to checkers!");
         int free=0;
         System.out.println("Do you wish to enable free play? (no turns)");
@@ -873,29 +884,16 @@ public class checkers {
                                     System.out.println((cord4-cord2)+" "+(cord3-cord1));
                                     */
                                     x=1;
-                                    Boolean done = false; int jumpcount = 0;
+                                    Boolean done = false;
                                     while (done==false) {
                                         Boolean jumped = false;
-                                        if (cord3-cord1 > 0) {
+                                        if (cord3-cord1 > 0 || cord > 2) {
                                             //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) { <-- These commented if statements need to be removed, too lazy at the moment
                                                 if (cord6<6 && cord5<6) {
                                                     if (positions[cord6+1][cord5+1] != cord && positions[cord6+1][cord5+1] != 0) {
                                                         if (positions[cord6+2][cord5+2] == 0) {
-                                                            switch (jumpcount) {
-                                                                case 0:
-                                                                    jumpcount++;
-                                                                    System.out.println("Double jump!");
-                                                                    break;
-                                                                case 1:
-                                                                    jumpcount++;
-                                                                    System.out.println("Triple jump!");
-                                                                    break;
-                                                                case 3:
-                                                                    jumpcount++;
-                                                                    System.out.println("Quadruple jump!");
-                                                                    // Don't think this is possible?
-                                                                    break;
-                                                            }
+                                                            print();
+                                                            jumpcountprint();
                                                             positions[cord6][cord5] = 0;
                                                             positions[cord6+1][cord5+1] = 0;
                                                             positions[cord6+2][cord5+2] = cord;
@@ -905,7 +903,6 @@ public class checkers {
                                                             if (cord5 == 7 && cord == 1) {
                                                                 positions[cord6][cord5] = 3;
                                                             }
-                                                            print();
                                                             k=1;
                                                         }
                                                     }
@@ -914,21 +911,8 @@ public class checkers {
                                                     if (positions[cord6-1][cord5+1] != cord && positions[cord6-1][cord5+1] != 0) {
                                                         if (positions[cord6-2][cord5+2] == 0) {
                                                             if (positions[cord6][cord5] == cord) {
-                                                                switch (jumpcount) {
-                                                                    case 0:
-                                                                        jumpcount++;
-                                                                        System.out.println("Double jump!");
-                                                                        break;
-                                                                    case 1:
-                                                                        jumpcount++;
-                                                                        System.out.println("Triple jump!");
-                                                                        break;
-                                                                    case 3:
-                                                                        jumpcount++;
-                                                                        System.out.println("Quadruple jump!");
-                                                                        // Don't think this is possible?
-                                                                        break;
-                                                                }
+                                                                print();
+                                                                jumpcountprint();
                                                                 positions[cord6][cord5] = 0;
                                                                 positions[cord6-1][cord5+1] = 0;
                                                                 positions[cord6-2][cord5+2] = cord;
@@ -938,33 +922,19 @@ public class checkers {
                                                                 if (cord5 == 7 && cord == 1) {
                                                                     positions[cord6][cord5] = 3;
                                                                 }
-                                                                print();
                                                                 k=1;
                                                             }
                                                         }
                                                     }
                                                 }
                                             //}
-                                        } else {
+                                        } if (cord3-cord1 < 0 || cord > 2) {
                                             //if (cord6<6 && cord6>1 && cord5>6 && cord5>1) {
                                                 if (cord6>1 && cord5>1) {
                                                     if (positions[cord6-1][cord5-1] != cord && positions[cord6-1][cord5-1] != 0) {
                                                         if (positions[cord6-2][cord5-2] == 0) {
-                                                            switch (jumpcount) {
-                                                                case 0:
-                                                                    jumpcount++;
-                                                                    System.out.println("Double jump!");
-                                                                    break;
-                                                                case 1:
-                                                                    jumpcount++;
-                                                                    System.out.println("Triple jump!");
-                                                                    break;
-                                                                case 3:
-                                                                    jumpcount++;
-                                                                    System.out.println("Quadruple jump!");
-                                                                    // Don't think this is possible?
-                                                                    break;
-                                                            }
+                                                            print();
+                                                            jumpcountprint();
                                                             positions[cord6][cord5] = 0;
                                                             positions[cord6-1][cord5-1] = 0;
                                                             positions[cord6-2][cord5-2] = cord;
@@ -974,7 +944,6 @@ public class checkers {
                                                             if (cord5 == 0 && cord == 2) {
                                                                 positions[cord6][cord5] = 4;
                                                             }
-                                                            print();
                                                             k=1;
                                                         }
                                                     }
@@ -983,21 +952,8 @@ public class checkers {
                                                     if (positions[cord6+1][cord5-1] != cord && positions[cord6+1][cord5-1] != 0) {
                                                         if (positions[cord6+2][cord5-2] == 0) {
                                                             if (positions[cord6][cord5] == cord) {
-                                                                switch (jumpcount) {
-                                                                    case 0:
-                                                                        jumpcount++;
-                                                                        System.out.println("Double jump!");
-                                                                        break;
-                                                                    case 1:
-                                                                        jumpcount++;
-                                                                        System.out.println("Triple jump!");
-                                                                        break;
-                                                                    case 3:
-                                                                        jumpcount++;
-                                                                        System.out.println("Quadruple jump!");
-                                                                        // Don't think this is possible?
-                                                                        break;
-                                                                }
+                                                                print();
+                                                                jumpcountprint();
                                                                 positions[cord6][cord5] = 0;
                                                                 positions[cord6+1][cord5-1] = 0;
                                                                 positions[cord6+2][cord5-2] = cord;
@@ -1007,7 +963,6 @@ public class checkers {
                                                                 if (cord5 == 0 && cord == 2) {
                                                                     positions[cord6][cord5] = 4;
                                                                 }
-                                                                print();
                                                                 k=1;
                                                             }
                                                         }
@@ -1034,6 +989,7 @@ public class checkers {
                                     case 1: turn=2; break;
                                     case 2: turn=1; break;
                                 }
+                                jumpcount = 0;
                             } else {
                                 l = 0;
                             }
