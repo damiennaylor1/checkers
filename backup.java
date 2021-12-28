@@ -487,12 +487,12 @@ public class checkers {
                 for (int i=0;i<8;i++) {
                     for (int i2=0;i2<8;i2++) {
                         if (positions[i][i2] == 1 || positions[i][i2] == 3) {
-                            String addon = checkMoves(i2,i);
+                            String sendTo = i2+""+i;
+                            String addon = checkMoves(sendTo);
                             results += addon;
                             if (addon.length() > 0) {
                                 for (int i4=0;i4<(addon.length() / 5);i4++) {
-                                    char t = addon.charAt(4+(5*i));
-                                    int z = Integer.parseInt(t);
+                                    int z = Character.getNumericalValue(addon.charAt(4+(5*i)));
                                     for (int i3=0;i3<36;i3++) {
                                         if (numberlist[i3] == -2) {
                                             numberlist[i3] = z;
@@ -1063,10 +1063,9 @@ public class checkers {
             }
         }
     }
-    public void checkMoves(int cord1, int cord2) {
-        // Using logic perimeters, these pieces can be moved if the move is legal.
-        // However this would need to be rewritten to support kings as it is solely to support normal pieces
-        // and has 0 infrastructure to support kings.
+    public String checkMoves(String incoming) {
+        int cord1 = Character.getNumericalValue(incoming.charAt(0));
+        int cord2 = Character.getNumericalValue(incoming.charAt(1));
         int cord = positions[cord2][cord1];
         String tstring = ""; String output = ""; int legalcheck = 0; int k = 0;
         if (cord == 2) {
@@ -1508,16 +1507,6 @@ public class checkers {
                     }
                 }
                 output += letters.charAt(cord1) + numbers.charAt(cord2) + tstring.charAt(i*3) + tstring.charAt((i*3)+1) + score;
-                if (l==0) {
-                    k = 0; o=0;
-                    switch(turn){
-                        case 1: turn=2; break;
-                        case 2: turn=1; break;
-                    }
-                    jumpcount = 0;
-                } else {
-                    l = 0;
-                }
             }
         }
         return (output);
