@@ -493,7 +493,7 @@ public class checkers {
                             results += addon;
                             if (addon.length() > 0) {
                                 for (int i4=0;i4<(addon.length() / 5);i4++) {
-                                    int z = (int)addon.charAt(4+(5*i));
+                                    int z = Integer.parseInt(String.valueOf(addon.charAt(4+(5*i4))));
                                     for (int i3=0;i3<36;i3++) {
                                         if (numberlist[i3] == -2) {
                                             numberlist[i3] = z;
@@ -516,6 +516,7 @@ public class checkers {
                 cord2 = numbers.indexOf(results.charAt(biggest-3));
                 cord3 = letters.indexOf(results.charAt(biggest-2));
                 cord4 = numbers.indexOf(results.charAt(biggest-1));
+                System.out.println("Enter:" + cord1+" "+cord2);
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
@@ -545,6 +546,7 @@ public class checkers {
                     }
                 } else {
                     work = true;
+                    System.out.println(cord1+"wakawaka"+cord1);
                     System.out.println(letters.charAt(cord1)+""+numbers.charAt(cord2));
                 }
             } else {k=1; o=1;}
