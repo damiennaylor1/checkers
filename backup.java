@@ -494,10 +494,11 @@ public class checkers {
                             if (addon.length() > 0) {
                                 for (int i4=0;i4<(addon.length() / 5);i4++) {
                                     int z = Integer.parseInt(String.valueOf(addon.charAt(4+(5*i4))));
+                                    Boolean stop = false;
                                     for (int i3=0;i3<36;i3++) {
-                                        if (numberlist[i3] == -2) {
+                                        if (numberlist[i3] == -2 && stop == false) {
                                             numberlist[i3] = z;
-                                            break;
+                                            stop = true;
                                         }
                                     }
                                 }
@@ -511,13 +512,20 @@ public class checkers {
                         biggest = numberlist[i];
                     }
                 }
-                int findbiggest = results.indexOf(biggest);
-                cord1 = letters.indexOf(results.charAt(biggest-4));
-                cord2 = numbers.indexOf(results.charAt(biggest-3));
-                cord3 = letters.indexOf(results.charAt(biggest-2));
-                cord4 = numbers.indexOf(results.charAt(biggest-1));
+                String yeah5 = "" + biggest;
+                int findbiggest = results.indexOf(yeah5);
                 System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
-                System.out.println(results.charAt(biggest-4)+" "+results.charAt(biggest-3)+" "+results.charAt(biggest-2)+" "+results.charAt(biggest-1));
+                System.out.println("biggest: "+biggest+""+findbiggest+""+results.indexOf(2));
+                System.out.println(results);
+                System.out.println(biggest+" "+results.charAt(findbiggest));
+                System.out.println(results.charAt(findbiggest-4)+" "+results.charAt(findbiggest-3)+" "+results.charAt(findbiggest-2)+" "+results.charAt(findbiggest-1));
+                System.out.println(results);
+                cord1 = results.charAt(findbiggest-4)-48;
+                cord2 = results.charAt(findbiggest-3)-48;
+                cord3 = results.charAt(findbiggest-2)-48;
+                cord4 = results.charAt(findbiggest-1)-48;
+                System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
+                //System.out.println(results.charAt(biggest-4));
                 System.out.println(results);
             }
             if (o==0) {
@@ -1516,7 +1524,7 @@ public class checkers {
                         score--;
                     } */ // this shit dont work lol
                 }
-                output += cord1+""+cord2 + letters.indexOf(tstring.charAt(0)) + tstring.charAt(1) + score;
+                output += cord1+""+cord2 + letters.indexOf(tstring.charAt(0)) + numbers.indexOf(tstring.charAt(1)) + score;
                 System.out.println("Output: " + output);
                 if (tstring.length() > 2) {
                     if (tstring.charAt(2) == '%') {
