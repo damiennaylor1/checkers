@@ -486,8 +486,8 @@ public class checkers {
                 }
                 for (int i=0;i<8;i++) {
                     for (int i2=0;i2<8;i2++) {
-                        System.out.println(i+" "+i2);
                         if (positions[i][i2] == 1 || positions[i][i2] == 3) {
+                            System.out.println(i+" "+i2);
                             String sendTo = i2+""+i;
                             String addon = checkMoves(sendTo);
                             results += addon;
@@ -516,7 +516,8 @@ public class checkers {
                 cord2 = numbers.indexOf(results.charAt(biggest-3));
                 cord3 = letters.indexOf(results.charAt(biggest-2));
                 cord4 = numbers.indexOf(results.charAt(biggest-1));
-                System.out.println("Enter:" + cord1+" "+cord2);
+                System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
+                System.out.println(results.charAt(biggest-4)+" "+results.charAt(biggest-3)+" "+results.charAt(biggest-2)+" "+results.charAt(biggest-1));
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
