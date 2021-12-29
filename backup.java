@@ -518,6 +518,7 @@ public class checkers {
                 cord4 = numbers.indexOf(results.charAt(biggest-1));
                 System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
                 System.out.println(results.charAt(biggest-4)+" "+results.charAt(biggest-3)+" "+results.charAt(biggest-2)+" "+results.charAt(biggest-1));
+                System.out.println(results);
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
@@ -1515,7 +1516,8 @@ public class checkers {
                         score--;
                     } */ // this shit dont work lol
                 }
-                output += letters.charAt(cord1) + numbers.charAt(cord2) + tstring.charAt(0) + tstring.charAt(1) + score;
+                output += cord1+""+cord2 + letters.indexOf(tstring.charAt(0)) + tstring.charAt(1) + score;
+                System.out.println("Output: " + output);
                 if (tstring.length() > 2) {
                     if (tstring.charAt(2) == '%') {
                         tstring = tstring.substring(3);
