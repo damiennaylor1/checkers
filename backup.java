@@ -486,13 +486,14 @@ public class checkers {
                 }
                 for (int i=0;i<8;i++) {
                     for (int i2=0;i2<8;i2++) {
+                        System.out.println(i+" "+i2);
                         if (positions[i][i2] == 1 || positions[i][i2] == 3) {
                             String sendTo = i2+""+i;
                             String addon = checkMoves(sendTo);
                             results += addon;
                             if (addon.length() > 0) {
                                 for (int i4=0;i4<(addon.length() / 5);i4++) {
-                                    int z = Character.getNumericalValue(addon.charAt(4+(5*i)));
+                                    int z = (int)addon.charAt(4+(5*i));
                                     for (int i3=0;i3<36;i3++) {
                                         if (numberlist[i3] == -2) {
                                             numberlist[i3] = z;
@@ -689,7 +690,7 @@ public class checkers {
                                         }    
                                     }
                                     if (positions[cord2-1][cord1+1] != cord) {
-                                        switch (positions[cord2-1][cord1+1] + 1) {
+                                        switch (positions[cord2-1][cord1+1]) {
                                             case 3:
                                                 if (cord2-2 >= 0 && cord1+2 <= 7) {
                                                     if (positions[cord2-2][cord1+2] == 0) {
@@ -1064,8 +1065,9 @@ public class checkers {
         }
     }
     public String checkMoves(String incoming) {
-        int cord1 = Character.getNumericalValue(incoming.charAt(0));
-        int cord2 = Character.getNumericalValue(incoming.charAt(1));
+        int cord1 = Integer.parseInt(String.valueOf(incoming.charAt(0)));
+        int cord2 = Integer.parseInt(String.valueOf(incoming.charAt(1)));
+        System.out.println(cord1 +""+ cord2);
         int cord = positions[cord2][cord1];
         String tstring = ""; String output = ""; int legalcheck = 0; int k = 0;
         if (cord == 2) {
@@ -1368,16 +1370,19 @@ public class checkers {
         if (legalcheck > 0) {
             int x=0; int l=0;
             for (int i2=0;i2<4;i2++) {
+                if (tstring.length() == 0) {
+                    break;
+                }
                 int[][] positions2 = positions.clone();
                 int intcheck = 0; int score = 0;
-                if (i2*3 < 2) {
-                    if (tstring.length() > (i2*3)+2) {
-                        if (tstring.charAt(i2*3)+2 == '%') {
-                            intcheck=2;
-                        }
+                if (tstring.length() > 2) {
+                    if (tstring.charAt(2) == '%') {
+                        intcheck=2;
                     }
                 }
-                int cord6 = cord3; int cord5 = cord1;
+                int cord3 = letters.indexOf(tstring.charAt(0));
+                int cord4 = numbers.indexOf(tstring.charAt(1));
+                int cord6 = cord4; int cord5 = cord3;
                 switch (intcheck) {
                     case 2:
                         positions2[cord2][cord1] = 0;
@@ -1489,6 +1494,7 @@ public class checkers {
                 Boolean penalty = false;
                 // These perimeters need fixing
                 if (cord5 > 0 && cord5 < 7 && cord6 > 0 && cord6 < 7) {
+                    /*
                     if (positions2[cord6+1][cord5+1] != cord && positions[cord6+1][cord5+1] != 0 && positions[cord6-1][cord5-1] == 0 && penalty = false) {
                         penalty = true;
                         score--;
@@ -1504,9 +1510,18 @@ public class checkers {
                     if (positions2[cord6-1][cord5-1] != cord && positions[cord6+1][cord5+1] != 0 && positions[cord6+1][cord5+1] == 0 && penalty = false) {
                         penalty = true;
                         score--;
-                    }
+                    } */ // this shit dont work lol
                 }
-                output += letters.charAt(cord1) + numbers.charAt(cord2) + tstring.charAt(i*3) + tstring.charAt((i*3)+1) + score;
+                output += letters.charAt(cord1) + numbers.charAt(cord2) + tstring.charAt(0) + tstring.charAt(1) + score;
+                if (tstring.length() > 2) {
+                    if (tstring.charAt(2) == '%') {
+                        tstring = tstring.substring(3);
+                    } else {
+                        tstring = tstring.substring(2);
+                    }
+                } else {
+                    tstring = "";
+                }
             }
         }
         return (output);
