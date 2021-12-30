@@ -480,14 +480,13 @@ public class checkers {
             }
             int cord1 = 0; int cord2 = 0; int cord3 = 0; int cord4 = 0;
             if (robotturn == 1) {
-                int[] numberlist = new int[36]; String results = "";
+                int[] numberlist = new int[36]; String results = ""; int[] frequency = new int[8];
                 for (int i=0;i<36;i++) {
                     numberlist[i] = -2;
                 }
                 for (int i=0;i<8;i++) {
                     for (int i2=0;i2<8;i2++) {
                         if (positions[i][i2] == 1 || positions[i][i2] == 3) {
-                            System.out.println(i+" "+i2);
                             String sendTo = i2+""+i;
                             String addon = checkMoves(sendTo);
                             results += addon;
@@ -499,6 +498,7 @@ public class checkers {
                                         if (numberlist[i3] == -2 && stop == false) {
                                             numberlist[i3] = z;
                                             stop = true;
+                                            frequency[z]++;
                                         }
                                     }
                                 }
@@ -513,21 +513,36 @@ public class checkers {
                         biggestindex = i;
                     }
                 }
+                if (frequency[biggest+1] > 1) {
+                    Boolean stop2 = false;
+                    int chance = (int)Math.floor(Math.random()*((frequency[biggest+1])-1+1)+1);
+                    for (int i=0;i<(chance-1);i++) {
+                        for (int i2=0;i2<36;i2++) {
+                            if (stop2 == false) {
+                                if (numberlist[i2] == biggest) {
+                                    numberlist[i2] = 0;
+                                    stop2 = true;
+                                }
+                            } else {
+                                numberlist[i2-1] = numberlist[i2];
+                                numberlist[i2] = 0;
+                            }
+                        }
+                    }
+                    stop2 = false;
+                    for (int i=0;i<36;i++) {
+                        if (stop2 == false && numberlist[i] == biggest) {
+                            stop2 = true;
+                            biggestindex = i + (chance-1);
+                        }
+                    }
+                }
                 String yeah5 = "" + biggest;
                 int findbiggest = 4+(5*biggestindex);
-                /*System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
-                System.out.println("biggest: "+biggest+""+findbiggest+""+results.indexOf(2));
-                System.out.println(results);
-                System.out.println(biggest+" "+results.charAt(findbiggest));
-                System.out.println(results.charAt(findbiggest-4)+" "+results.charAt(findbiggest-3)+" "+results.charAt(findbiggest-2)+" "+results.charAt(findbiggest-1));
-                System.out.println(results);*/
                 cord1 = results.charAt(findbiggest-4)-48;
                 cord2 = results.charAt(findbiggest-3)-48;
                 cord3 = results.charAt(findbiggest-2)-48;
                 cord4 = results.charAt(findbiggest-1)-48;
-                System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4);
-                //System.out.println(results.charAt(biggest-4));
-                System.out.println(results);
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
@@ -557,7 +572,6 @@ public class checkers {
                     }
                 } else {
                     work = true;
-                    System.out.println(cord1+"wakawaka"+cord1);
                     System.out.println(letters.charAt(cord1)+""+numbers.charAt(cord2));
                 }
             } else {k=1; o=1;}
@@ -911,8 +925,10 @@ public class checkers {
                             cord3 = letters.indexOf(char3);
                             cord4 = numbers.indexOf(char4);
                         } else {
+                            System.out.println("Enter target coordinate");
                             char3 = letters.charAt(cord3);
                             char4 = numbers.charAt(cord4);
+                            System.out.println(char3+""+char4);
                         }
                         int intcheck = 0;
                         for (int i=0;i<tstring.length();i++) {
@@ -1084,7 +1100,6 @@ public class checkers {
     public String checkMoves(String incoming) {
         int cord1 = Integer.parseInt(String.valueOf(incoming.charAt(0)));
         int cord2 = Integer.parseInt(String.valueOf(incoming.charAt(1)));
-        System.out.println(cord1 +""+ cord2);
         int cord = positions[cord2][cord1];
         String tstring = ""; String output = ""; int legalcheck = 0; int k = 0;
         if (cord == 2) {
@@ -1535,7 +1550,6 @@ public class checkers {
                     } */ // this shit dont work lol
                 }
                 output += cord1+""+cord2 + letters.indexOf(tstring.charAt(0)) + numbers.indexOf(tstring.charAt(1)) + score;
-                System.out.println("Output: " + output);
                 if (tstring.length() > 2) {
                     if (tstring.charAt(2) == '%') {
                         tstring = tstring.substring(3);
