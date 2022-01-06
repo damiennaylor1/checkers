@@ -6,7 +6,9 @@ public class checkers {
     String letters = "ABCDEFGH"; 
     String numbers = "12345678";
     Scanner scan = new Scanner(System.in);
+    // Initializing variables that are used in >1 method
     public int moveCheck(int cord2, int cord1, int turn) {
+        // This method checks for legal moves and returns how many legal moves it has.
         int cord = positions[cord2][cord1];
         String tstring = "";
         int free = 0; int legalcheck = 0; int k=0;
@@ -306,6 +308,7 @@ public class checkers {
         return legalcheck;
     }
     public void print() {
+        // This method prints out the game board
         System.out.println("    1   2   3   4   5   6   7   8 ");
         System.out.println("   --- --- --- --- --- --- --- ---");
         for (int i=0; i<8;i++) {
@@ -317,6 +320,7 @@ public class checkers {
                     if (positions[i2][i] < 3) {
                         System.out.print("| " + positions[i2][i] + " ");
                     } else {
+                        // If a piece is a king it has a "-K" added and has different syntax to support it
                         System.out.print("|" + (positions[i2][i]-2)+"-K");
                     }
                 } else {
@@ -332,6 +336,7 @@ public class checkers {
         }
     }
     public void jumpcountprint() {
+        // If a piece can capture more than 1 piece it uses this method for each consecutive jump it performs
         switch (jumpcount) {
             case 0:
                 jumpcount++;
@@ -458,6 +463,7 @@ public class checkers {
                 }
             }
             if (free == 0) {
+                // Checks for legal moves
                 int legalmoves=0;
                 for (int i=0;i<8;i++) {
                     for (int i2=0;i2<8;i2++) {
@@ -543,11 +549,14 @@ public class checkers {
                 cord2 = results.charAt(findbiggest-3)-48;
                 cord3 = results.charAt(findbiggest-2)-48;
                 cord4 = results.charAt(findbiggest-1)-48;
+                // I have absolutely no idea why exactly it adds 48 to the value and I should 
+                // probably be more concerned, but if its not broke dont fix it
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
             } else {
                 System.out.print("");
+                // Weird issue with picking who goes first, would not let the user enter
             }
             String input = "  ";
             if (robotturn == 0) {
