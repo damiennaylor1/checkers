@@ -499,6 +499,7 @@ public class checkers {
                             if (addon.length() > 0) {
                                 for (int i4=0;i4<(addon.length() / 5);i4++) {
                                     int z = Integer.parseInt(String.valueOf(addon.charAt(4+(5*i4))));
+                                    // this gets the score of the move
                                     Boolean stop = false;
                                     for (int i3=0;i3<36;i3++) {
                                         if (numberlist[i3] == -2 && stop == false) {
@@ -542,6 +543,7 @@ public class checkers {
                             biggestindex = i + (chance-1);
                         }
                     }
+                    // picks a random move if the highest score has a frequency >1
                 }
                 String yeah5 = "" + biggest;
                 int findbiggest = 4+(5*biggestindex);
@@ -550,7 +552,8 @@ public class checkers {
                 cord3 = results.charAt(findbiggest-2)-48;
                 cord4 = results.charAt(findbiggest-1)-48;
                 // I have absolutely no idea why exactly it adds 48 to the value and I should 
-                // probably be more concerned, but if its not broke dont fix it
+                // probably be more way more concerned, but if its not broke dont fix it
+                // Theory: something to do with ASCII
             }
             if (o==0) {
                 System.out.println("Enter coordinate of piece");
@@ -560,6 +563,7 @@ public class checkers {
             }
             String input = "  ";
             if (robotturn == 0) {
+                // The program shouldn't wait for an input from the user if the computer is playing
                 input = scan.nextLine().toUpperCase();
             }
             Boolean work = false;
@@ -572,6 +576,7 @@ public class checkers {
                     cord2 = numbers.indexOf(char2);
                     if (cord1 > -1) {
                         if (cord2 > -1) {
+                            // This checks if the inputs are within 1-8
                             work = true;
                         } else {
                             System.out.println("ERROR: Number is not within board space (1-8)");
@@ -810,6 +815,7 @@ public class checkers {
                         print();
                         k=1;
                     } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
+                        // Checks if the piece is a king & it is the appropriate turn
                         if (cord1-1 >= 0) {
                             if (cord2-1 >= 0) {
                                 if (positions[cord2-1][cord1-1] != cord) {
@@ -934,6 +940,7 @@ public class checkers {
                             cord3 = letters.indexOf(char3);
                             cord4 = numbers.indexOf(char4);
                         } else {
+                            // For immersion's sake, the program still displays the same lines but does not read in text when the computer plays
                             System.out.println("Enter target coordinate");
                             char3 = letters.charAt(cord3);
                             char4 = numbers.charAt(cord4);
@@ -983,11 +990,6 @@ public class checkers {
                                 int cord6 = cord4+(cord4-cord2);
                                 int cord5 = cord3+(cord3-cord1);
                                 positions[cord6][cord5] = cord;
-                                /* Debugging multi-jump errors (resolved, issue was that im stupid but keeping this here for future use)
-                                System.out.println(letters.charAt(cord5)+""+numbers.charAt(cord6));
-                                System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4+" "+cord5+" "+cord6);
-                                System.out.println((cord4-cord2)+" "+(cord3-cord1));
-                                */
                                 x=1;
                                 Boolean done = false;
                                 while (done==false) {
@@ -1528,9 +1530,6 @@ public class checkers {
                             if (jumped == false) {
                                 done = true;
                             }
-                            // Need to check perimeters to allow for multi jumping.
-                            // For instance, is the position out of bounds?
-                            // Perimeters working for now, needs testing
                         }
                         break;
                     default:
@@ -1565,6 +1564,7 @@ public class checkers {
                     } else {
                         tstring = tstring.substring(2);
                     }
+                    // This removes the transmitted moves from the string to enable easier coding
                 } else {
                     tstring = "";
                 }
