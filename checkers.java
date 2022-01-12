@@ -11,7 +11,7 @@ public class checkers {
         // This method checks for legal moves and returns how many legal moves it has.
         int cord = positions[cord2][cord1];
         String tstring = "";
-        int free = 0; int legalcheck = 0; int k=0;
+        int free = 0; int legalcheck = 0;  int check=0;
         if (cord == 2) {
             if (turn == 2 || free == 1) {
                 switch (cord2) {
@@ -58,7 +58,7 @@ public class checkers {
                             }
                         }
                         if (legalcheck == 0) {
-                            k=1;
+                            check = 1;
                             break;
                         }
                         break;
@@ -79,7 +79,7 @@ public class checkers {
                                     tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
                                     break;
                                 default:
-                                    k=1;
+                                    check=1;
                                     break;
                             }
                         }
@@ -101,7 +101,7 @@ public class checkers {
                                     legalcheck++;
                                     break;
                                 default:
-                                    k=1;
+                                    check=1;
                                     break;
                             }    
                                 
@@ -153,7 +153,7 @@ public class checkers {
                             }
                         }
                         if (legalcheck == 0) {
-                            k=1;
+                            check=1;
                             break;
                         }
                         break;
@@ -174,7 +174,7 @@ public class checkers {
                                     tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                     break;
                                 default:
-                                    k=1;
+                                    check=1;
                                     break;
                             }
                         }
@@ -196,7 +196,7 @@ public class checkers {
                                     legalcheck++;
                                     break;
                                 default:
-                                    k=1;
+                                    check=1;
                                     break;
                             }    
                                 
@@ -206,7 +206,7 @@ public class checkers {
             } else {
             }
         } else if (cord == 0) {
-            k=1;
+            check=1;
         } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
             if (cord1-1 >= 0) {
                 if (cord2-1 >= 0) {
@@ -227,7 +227,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                                check=1;
                                 break;
                         }    
                     }
@@ -250,7 +250,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                                check=1;
                                 break;
                         }    
                     }
@@ -275,7 +275,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                                check=1;
                                 break;
                         }    
                     }
@@ -298,7 +298,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                                check=1;
                                 break;
                         }    
                     }
@@ -311,23 +311,23 @@ public class checkers {
         // This method prints out the game board
         System.out.println("    1   2   3   4   5   6   7   8 ");
         System.out.println("   --- --- --- --- --- --- --- ---");
-        for (int i=0; i<8;i++) {
-            for (int i2=0; i2<8;i2++) {
-                if (i2 < 7) {
-                    if (i2==0) {
-                        System.out.print(a[i] + " ");
+        for (int col=0; col<8;col++) {
+            for (int row=0; row<8;row++) {
+                if (row < 7) {
+                    if (row==0) {
+                        System.out.print(a[col] + " ");
                     }
-                    if (positions[i2][i] < 3) {
-                        System.out.print("| " + positions[i2][i] + " ");
+                    if (positions[row][col] < 3) {
+                        System.out.print("| " + positions[row][col] + " ");
                     } else {
                         // If a piece is a king it has a "-K" added and has different syntax to support it
-                        System.out.print("|" + (positions[i2][i]-2)+"-K");
+                        System.out.print("|" + (positions[row][col]-2)+"-K");
                     }
                 } else {
-                    if (positions[i2][i] < 3) {
-                        System.out.print("| " + positions[i2][i] + " |");
+                    if (positions[row][col] < 3) {
+                        System.out.print("| " + positions[row][col] + " |");
                     } else {
-                        System.out.print("|" + (positions[i2][i]-2)+"-K|");
+                        System.out.print("|" + (positions[row][col]-2)+"-K|");
                     }
                 }
             }
@@ -363,32 +363,32 @@ public class checkers {
     public void main() {
         // Set the player checkers
         // /*
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) { 
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) { 
                 //Set player 1 pieces
-                if (y == 0 || y == 2) {
-                    if (x == 1 ||x == 3 ||x == 5 ||x == 7) {
-                        positions[x][y] = 1;
+                if (col == 0 || col == 2) {
+                    if (row == 1 ||row == 3 ||row == 5 ||row == 7) {
+                        positions[row][col] = 1;
                     }
                 }
-                else if (y == 1) {
-                    if (x == 0 ||x == 2 ||x == 4 ||x == 6) {
-                        positions[x][y] = 1;
+                else if (col == 1) {
+                    if (row == 0 ||row == 2 ||row == 4 ||row == 6) {
+                        positions[row][col] = 1;
                     }
                 }
                 //Set player 2 pieces
-                else if (y == 5 || y == 7) {
-                    if (x == 0 ||x == 2 ||x == 4 ||x == 6) {
-                        positions[x][y] = 2;
+                else if (col == 5 || col == 7) {
+                    if (row == 0 ||row == 2 ||row == 4 ||row == 6) {
+                        positions[row][col] = 2;
                     }
                 }
-                else if (y == 6) {
-                    if (x == 1 ||x == 3 ||x == 5 ||x == 7) {
-                        positions[x][y] = 2;
+                else if (col == 6) {
+                    if (row == 1 ||row == 3 ||row == 5 ||row == 7) {
+                        positions[row][col] = 2;
                     }
                 }
                 else {
-                        positions[x][y] = 0;
+                        positions[row][col] = 0;
                 }
             }
         } // */
@@ -443,9 +443,11 @@ public class checkers {
                 }while(chosen==false);
             }
         }
-        int o=0; int winner = 0;
-        int j = 0; int k = 0; while (j==0) {
-            if (k == 0) {
+        int turnCheck=0; 
+        int winner = 0;
+        int gameCondition = 0; int check = 0; 
+        while (gameCondition==0) {
+            if (check == 0) {
                 print();
                 switch(turn) {
                     case 1:
@@ -474,7 +476,7 @@ public class checkers {
                     }
                 }
                 if (legalmoves == 0) {
-                    j = 1;
+                	gameCondition = 1;
                     if (turn == 1) {
                         winner = 2;
                     } else {
@@ -490,20 +492,20 @@ public class checkers {
                 for (int i=0;i<36;i++) {
                     numberlist[i] = -2;
                 }
-                for (int i=0;i<8;i++) {
-                    for (int i2=0;i2<8;i2++) {
-                        if (positions[i][i2] == 1 || positions[i][i2] == 3) {
-                            String sendTo = i2+""+i;
+                for (int col=0;col<8;col++) {
+                    for (int row=0;row<8;row++) {
+                        if (positions[col][row] == 1 || positions[col][row] == 3) {
+                            String sendTo = row+""+col;
                             String addon = checkMoves(sendTo);
                             results += addon;
                             if (addon.length() > 0) {
-                                for (int i4=0;i4<(addon.length() / 5);i4++) {
-                                    int z = Integer.parseInt(String.valueOf(addon.charAt(4+(5*i4))));
+                                for (int col2=0;col2<(addon.length() / 5);col2++) {
+                                    int z = Integer.parseInt(String.valueOf(addon.charAt(4+(5*col2))));
                                     // this gets the score of the move
                                     Boolean stop = false;
-                                    for (int i3=0;i3<36;i3++) {
-                                        if (numberlist[i3] == -2 && stop == false) {
-                                            numberlist[i3] = z;
+                                    for (int row2=0;row2<36;row2++) {
+                                        if (numberlist[row2] == -2 && stop == false) {
+                                            numberlist[row2] = z;
                                             stop = true;
                                             frequency[z]++;
                                         }
@@ -523,16 +525,16 @@ public class checkers {
                 if (frequency[biggest+1] > 1) {
                     Boolean stop2 = false;
                     int chance = (int)Math.floor(Math.random()*((frequency[biggest+1])-1+1)+1);
-                    for (int i=0;i<(chance-1);i++) {
-                        for (int i2=0;i2<36;i2++) {
+                    for (int col=0;col<(chance-1);col++) {
+                        for (int row=0;row<36;row++) {
                             if (stop2 == false) {
-                                if (numberlist[i2] == biggest) {
-                                    numberlist[i2] = 0;
+                                if (numberlist[row] == biggest) {
+                                    numberlist[row] = 0;
                                     stop2 = true;
                                 }
                             } else {
-                                numberlist[i2-1] = numberlist[i2];
-                                numberlist[i2] = 0;
+                                numberlist[row-1] = numberlist[row];
+                                numberlist[row] = 0;
                             }
                         }
                     }
@@ -555,7 +557,7 @@ public class checkers {
                 // probably be more way more concerned, but if its not broke dont fix it
                 // Theory: something to do with ASCII
             }
-            if (o==0) {
+            if (turnCheck==0) {
                 System.out.println("Enter coordinate of piece");
             } else {
                 System.out.print("");
@@ -588,7 +590,7 @@ public class checkers {
                     work = true;
                     System.out.println(letters.charAt(cord1)+""+numbers.charAt(cord2));
                 }
-            } else {k=1; o=1;}
+            } else {check=1; turnCheck=1;}
             if (work == true) {
                     int cord = positions[cord2][cord1];
                     if (cord == 2) {
@@ -642,7 +644,7 @@ public class checkers {
                                     }
                                     if (legalcheck == 0) {
                                         System.out.println("There are no legal moves for this piece!");
-                                        k=1;
+                                        check=1;
                                         break;
                                     }
                                     break;
@@ -666,7 +668,7 @@ public class checkers {
                                                 break;
                                             default:
                                                 System.out.println("There are no legal moves for this piece!");
-                                                k=1;
+                                                check=1;
                                                 break;
                                         }
                                     }
@@ -691,7 +693,7 @@ public class checkers {
                                                 break;
                                             default:
                                                 System.out.println("There are no legal moves for this piece!");
-                                                k=1;
+                                                check=1;
                                                 break;
                                         }    
                                             
@@ -700,7 +702,7 @@ public class checkers {
                             }
                         } else {
                             System.out.println("That is not your piece!");
-                            k=1;
+                            check=1;
                         }
                     } else if (cord == 1) {
                         if (turn==1 || free == 1) {
@@ -750,7 +752,7 @@ public class checkers {
                                     }
                                     if (legalcheck == 0) {
                                         System.out.println("There are no legal moves for this piece!");
-                                        k=1;
+                                        check=1;
                                         break;
                                     }
                                     break;
@@ -774,7 +776,7 @@ public class checkers {
                                                 break;
                                             default:
                                                 System.out.println("There are no legal moves for this piece!");
-                                                k=1;
+                                                check=1;
                                                 break;
                                         }
                                     }
@@ -799,7 +801,7 @@ public class checkers {
                                                 break;
                                             default:
                                                 System.out.println("There are no legal moves for this piece!");
-                                                k=1;
+                                                check=1;
                                                 break;
                                         }    
                                             
@@ -808,12 +810,12 @@ public class checkers {
                             }
                         } else {
                             System.out.println("That is not your piece!");
-                            k=1;
+                            check=1;
                         }
                     } else if (cord == 0) {
                         System.out.println("There is no checker piece at this spot! (" +letters.charAt(cord1)+""+numbers.charAt(cord2)+")");
                         print();
-                        k=1;
+                        check=1;
                     } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
                         // Checks if the piece is a king & it is the appropriate turn
                         if (cord1-1 >= 0) {
@@ -838,7 +840,7 @@ public class checkers {
                                             break;
                                         default:
                                             System.out.println("There are no legal moves for this piece!");
-                                            k=1;
+                                            check=1;
                                             break;
                                     }    
                                 }
@@ -864,7 +866,7 @@ public class checkers {
                                             break;
                                         default:
                                             System.out.println("There are no legal moves for this piece!");
-                                            k=1;
+                                            check=1;
                                             break;
                                     }    
                                 }
@@ -892,7 +894,7 @@ public class checkers {
                                             break;
                                         default:
                                             System.out.println("There are no legal moves for this piece!");
-                                            k=1;
+                                            check=1;
                                             break;
                                     }    
                                 }
@@ -918,7 +920,7 @@ public class checkers {
                                             break;
                                         default:
                                             System.out.println("There are no legal moves for this piece!");
-                                            k=1;
+                                            check=1;
                                             break;
                                     }    
                                 }
@@ -929,9 +931,10 @@ public class checkers {
                         }
                     }
                 if (legalcheck > 0 || robotturn == 1) {
-                    int x=0; int l=0;
+                    int inputCondition=0; // Variable used for rerunning input process again if invalid input was received
+                    int legalCheck2=0; // Checks if target coordinate entered by user was valid
                     char char3 = 'a'; char char4 = 'b';
-                    while (x==0) {
+                    while (inputCondition==0) {
                         if (robotturn == 0) {
                             System.out.println("Enter target coordinate");
                             String input2 = scan.nextLine().toUpperCase();
@@ -970,7 +973,7 @@ public class checkers {
                             case 1:
                                 positions[cord2][cord1] = 0;
                                 positions[cord4][cord3] = cord;
-                                x=1;
+                                inputCondition=1;
                                 switch(cord3) {
                                     case 0:
                                         if (cord==2) {
@@ -990,7 +993,7 @@ public class checkers {
                                 int cord6 = cord4+(cord4-cord2);
                                 int cord5 = cord3+(cord3-cord1);
                                 positions[cord6][cord5] = cord;
-                                x=1;
+                                inputCondition=1;
                                 Boolean done = false;
                                 while (done==false) {
                                     Boolean jumped = false;
@@ -1010,7 +1013,7 @@ public class checkers {
                                                         if (cord5 == 7 && cord == 1) {
                                                             positions[cord6][cord5] = 3;
                                                         }
-                                                        k=1;
+                                                        check=1;
                                                     }
                                                 }
                                             }
@@ -1029,7 +1032,7 @@ public class checkers {
                                                             if (cord5 == 7 && cord == 1) {
                                                                 positions[cord6][cord5] = 3;
                                                             }
-                                                            k=1;
+                                                            check=1;
                                                         }
                                                     }
                                                 }
@@ -1051,7 +1054,7 @@ public class checkers {
                                                         if (cord5 == 0 && cord == 2) {
                                                             positions[cord6][cord5] = 4;
                                                         }
-                                                        k=1;
+                                                        check=1;
                                                     }
                                                 }
                                             }
@@ -1070,7 +1073,7 @@ public class checkers {
                                                             if (cord5 == 0 && cord == 2) {
                                                                 positions[cord6][cord5] = 4;
                                                             }
-                                                            k=1;
+                                                            check=1;
                                                         }
                                                     }
                                                 }
@@ -1090,18 +1093,18 @@ public class checkers {
                                 if (robotturn == 1) {
                                     positions[-1][-1] = 0;
                                 }
-                                l=1;k=1;
+                                legalCheck2=1;check=1;
                                 break;
                         }
-                        if (l==0) {
-                            k = 0; o=0;
+                        if (legalCheck2==0) {
+                        	check = 0; turnCheck=0;
                             switch(turn){
                                 case 1: turn=2; break;
                                 case 2: turn=1; break;
                             }
                             jumpcount = 0;
                         } else {
-                            l = 0;
+                        	legalCheck2 = 0;
                         }
                     }
                 }
@@ -1112,7 +1115,7 @@ public class checkers {
         int cord1 = Integer.parseInt(String.valueOf(incoming.charAt(0)));
         int cord2 = Integer.parseInt(String.valueOf(incoming.charAt(1)));
         int cord = positions[cord2][cord1];
-        String tstring = ""; String output = ""; int legalcheck = 0; int k = 0;
+        String tstring = ""; String output = ""; int legalcheck = 0; int check = 0;
         if (cord == 2) {
             if (cord == 2) {
                 switch (cord2) {
@@ -1159,7 +1162,7 @@ public class checkers {
                             }
                         }
                         if (legalcheck == 0) {
-                            k=1;
+                            check=1;
                             break;
                         }
                         break;
@@ -1180,7 +1183,7 @@ public class checkers {
                                     tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
                                     break;
                                 default:
-                                    k=1;
+                                	check=1;
                                     break;
                             }
                         }
@@ -1202,7 +1205,7 @@ public class checkers {
                                     legalcheck++;
                                     break;
                                 default:
-                                    k=1;
+                                	check=1;
                                     break;
                             }    
                                 
@@ -1210,7 +1213,6 @@ public class checkers {
                         break;
                 }
             } else {
-                k=1;
             }
         } else if (cord == 1) {
             if (cord==1) {
@@ -1255,7 +1257,7 @@ public class checkers {
                             }
                         }
                         if (legalcheck == 0) {
-                            k=1;
+                        	check=1;
                             break;
                         }
                         break;
@@ -1276,7 +1278,7 @@ public class checkers {
                                     tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                     break;
                                 default:
-                                    k=1;
+                                	check=1;
                                     break;
                             }
                         }
@@ -1298,7 +1300,7 @@ public class checkers {
                                     legalcheck++;
                                     break;
                                 default:
-                                    k=1;
+                                	check=1;
                                     break;
                             }    
                                 
@@ -1306,10 +1308,10 @@ public class checkers {
                         break;
                 }
             } else {
-                k=1;
+            	check=1;
             }
         } else if (cord == 0) {
-            k=1;
+        	check=1;
         } else if ((cord == 3) || (cord == 4)) {
             if (cord1-1 >= 0) {
                 if (cord2-1 >= 0) {
@@ -1330,7 +1332,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                            	check=1;
                                 break;
                         }    
                     }
@@ -1353,7 +1355,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                                check=1;
                                 break;
                         }    
                     }
@@ -1378,7 +1380,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                            	check=1;
                                 break;
                         }    
                     }
@@ -1401,7 +1403,7 @@ public class checkers {
                                 legalcheck++;
                                 break;
                             default:
-                                k=1;
+                            	check=1;
                                 break;
                         }    
                     }
@@ -1411,15 +1413,15 @@ public class checkers {
             }
         }
         if (legalcheck > 0) {
-            int x=0; int l=0;
-            for (int i2=0;i2<4;i2++) {
+            int inputCondition=0; int legalCheck2=0;
+            for (int row=0;row<4;row++) {
                 if (tstring.length() == 0) {
                     break;
                 }
                 int[][] positions2 = new int[8][8];
-                for (int i3=0;i3<8;i3++) {
-                    for (int i4=0;i4<8;i4++) {
-                        positions2[i3][i4] = positions[i3][i4];
+                for (int row2=0;row2<8;row2++) {
+                    for (int col2=0;col2<8;col2++) {
+                        positions2[row2][col2] = positions[row2][col2];
                     }
                 }
                 int intcheck = 0; int score = 0;
@@ -1444,7 +1446,7 @@ public class checkers {
                         System.out.println(cord1+" "+cord2+" "+cord3+" "+cord4+" "+cord5+" "+cord6);
                         System.out.println((cord4-cord2)+" "+(cord3-cord1));
                         */
-                        x=1;
+                        inputCondition=1;
                         Boolean done = false;
                         while (done==false) {
                             Boolean jumped = false;
@@ -1462,7 +1464,7 @@ public class checkers {
                                                 if (cord5 == 7 && cord == 1) {
                                                     positions2[cord6][cord5] = 3;
                                                 }
-                                                k=1;
+                                                check=1;
                                                 score++;
                                             }
                                         }
@@ -1480,7 +1482,7 @@ public class checkers {
                                                     if (cord5 == 7 && cord == 1) {
                                                         positions2[cord6][cord5] = 3;
                                                     }
-                                                    k=1;
+                                                    check=1;
                                                     score++;
                                                 }
                                             }
@@ -1501,7 +1503,7 @@ public class checkers {
                                                 if (cord5 == 0 && cord == 2) {
                                                     positions2[cord6][cord5] = 4;
                                                 }
-                                                k=1;
+                                                check=1;
                                                 score++;
                                             }
                                         }
@@ -1519,7 +1521,7 @@ public class checkers {
                                                     if (cord5 == 0 && cord == 2) {
                                                         positions2[cord6][cord5] = 4;
                                                     }
-                                                    k=1;
+                                                    check=1;
                                                     score++;
                                                 }
                                             }
@@ -1533,7 +1535,7 @@ public class checkers {
                         }
                         break;
                     default:
-                        l=1;k=1;
+                        legalCheck2=1;check=1;
                         break;
                 }
                 Boolean penalty = false;
