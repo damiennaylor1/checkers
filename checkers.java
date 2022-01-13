@@ -1,21 +1,30 @@
 import java.util.Scanner;
+
+//This class will run the game 
 public class checkers {
-    int[][] positions = new int[8][8];
+	// Initializing variables that are used in the program
+    int[][] positions = new int[8][8]; // Array used for 8x8 board
     int jumpcount = 0;
+    
+    /*These Strings will be called for assigning values and 
+    * for preventing a piece from giving an out of bounds error
+    */ 
     String[] a = {"A","B","C","D","E","F","G","H"};
     String letters = "ABCDEFGH"; 
     String numbers = "12345678";
+    
+    
     Scanner scan = new Scanner(System.in);
-    // Initializing variables that are used in >1 method
+    
     public int moveCheck(int cord2, int cord1, int turn) {
         // This method checks for legal moves and returns how many legal moves it has.
         int cord = positions[cord2][cord1];
         String tstring = "";
         int free = 0; int legalcheck = 0;  int check=0;
-        if (cord == 2) {
+        
+        if (cord == 2) { // If the piece belongs to Player 2
             if (turn == 2 || free == 1) {
-                switch (cord2) {
-                    // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
+                switch (cord2) { // Checks for legal moves between rows 2-7
                     case 1:
                     case 2:
                     case 3:
@@ -27,14 +36,14 @@ public class checkers {
                                 case 2:
                                     if ((cord2-1) > 0 && cord1-1 > 0) {
                                         if (positions[cord2-2][cord1-2] == 0) {
-                                            legalcheck++;
+                                            legalcheck++; // Adds '1' to variable when a move is available
                                             tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1); tstring += '%';
                                             
                                         }
                                     }
                                     break;
                                 case 1:
-                                    legalcheck++;
+                                    legalcheck++; 
                                     tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
                                     break;
                             }    
@@ -62,7 +71,7 @@ public class checkers {
                             break;
                         }
                         break;
-                    case 0:
+                    case 0: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                         if (positions[cord2+1][cord1-1] != cord) {
                             switch (positions[cord2+1][cord1-1] + 1) {
                                 case 2:
@@ -84,7 +93,7 @@ public class checkers {
                             }
                         }
                         break;
-                    case 7:
+                    case 7: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                         if (positions[cord2-1][cord-1] != cord) {
                             switch (positions[cord2-1][cord1-1] + 1) {
                                 case 2:
@@ -100,7 +109,7 @@ public class checkers {
                                     tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
                                     legalcheck++;
                                     break;
-                                default:
+                                default: // If no legal moves available
                                     check=1;
                                     break;
                             }    
@@ -110,9 +119,9 @@ public class checkers {
                 }
             } else {
             }
-        } else if (cord == 1) {
+        } else if (cord == 1) { // If the piece belongs to Player 1
             if (turn==1 || free == 1) {
-                switch (cord2) {
+                switch (cord2) { // Checks for legal moves between rows 2-7
                     case 1:
                     case 2:
                     case 3:
@@ -157,7 +166,7 @@ public class checkers {
                             break;
                         }
                         break;
-                    case 0:
+                    case 0: // Checks for legal moves for a piece on an edge of the board
                         if (positions[cord2+1][cord1+1] != cord) {
                             switch (positions[cord2+1][cord1+1] + 1) {
                                 case 3:
@@ -173,13 +182,13 @@ public class checkers {
                                     legalcheck++;
                                     tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                     break;
-                                default:
+                                default: // If no legal moves available
                                     check=1;
                                     break;
                             }
                         }
                         break;
-                    case 7:
+                    case 7: // Checks for legal moves for a piece on an edge of the board
                         if (positions[cord2-1][cord1+1] != cord) {
                             switch (positions[cord2-1][cord1+1] + 1) {
                                 case 3:
@@ -207,7 +216,8 @@ public class checkers {
             }
         } else if (cord == 0) {
             check=1;
-        } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
+        } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) { 
+        	// Checks for legal moves for player pieces that were promoted to 'kings'
             if (cord1-1 >= 0) {
                 if (cord2-1 >= 0) {
                     if (positions[cord2-1][cord1-1] != cord) {
@@ -309,8 +319,12 @@ public class checkers {
     }
     public void print() {
         // This method prints out the game board
+    	
+    	//Print out top 2 rows
         System.out.println("    1   2   3   4   5   6   7   8 ");
         System.out.println("   --- --- --- --- --- --- --- ---");
+        
+        //Display board
         for (int col=0; col<8;col++) {
             for (int row=0; row<8;row++) {
                 if (row < 7) {
@@ -361,10 +375,16 @@ public class checkers {
         }
     }
     public void main() {
-        // Set the player checkers
-        // /*
+    	
+    	// Declare variables for running the game
+        int turn = 0;
+        int free=0; int robot = 0; int robotturn = 0;
+        
+        // Set the starting player checkers
+    	
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) { 
+            	
                 //Set player 1 pieces
                 if (col == 0 || col == 2) {
                     if (row == 1 ||row == 3 ||row == 5 ||row == 7) {
@@ -376,6 +396,7 @@ public class checkers {
                         positions[row][col] = 1;
                     }
                 }
+                
                 //Set player 2 pieces
                 else if (col == 5 || col == 7) {
                     if (row == 0 ||row == 2 ||row == 4 ||row == 6) {
@@ -391,24 +412,30 @@ public class checkers {
                         positions[row][col] = 0;
                 }
             }
-        } // */
-        int turn = 0;
+        }
+        
+        //Introductory message
         System.out.println("Welcome to checkers!");
-        int free=0; int robot = 0; int robotturn = 0;
+        
+        // Get input. Let user choose game mode and other options
         System.out.println("Do you wish to enable free play? (no turns)");
-        String freeornot = scan.nextLine();
+        String freeornot = scan.nextLine(); // Free mode selection
         if (freeornot.toLowerCase().equals("yes")) {
             free = 1;
         } else {
+        	// Computer mode selection
             System.out.println("Would you like to enable the computer opponent?");
             String computerornot = scan.nextLine();
             if (computerornot.toLowerCase().equals("yes")) {
                 robot = 1;
             }
+            
+            // Coinflip for deciding which player starts first
             System.out.println("Would you like to coinflip to decide who goes first, or choose?");
             String CorC = scan.nextLine().toLowerCase();
             if (CorC.equals("coinflip") || CorC.equals("coin flip") || CorC.equals("coin") || CorC.equals("flip")) {
-                int chance = (int)(Math.random()*2+1);
+                // Do a coinflip to randomly select which player starts
+            	int chance = (int)(Math.random()*2+1);
                 switch(chance) {
                     case 1:
                         if (robot == 0) {
@@ -424,12 +451,13 @@ public class checkers {
                         turn=2;
                         break;
                     default:
+                    	// Backup in-case there is somehow an error
                         System.out.println("ERROR: Coinflip is less than 1 or greater than 2");
                         System.out.println("Player 2 is chosen due to this error.");
-                        // There should be 0 scenarios where this is executed but just in case.
                         break;
                 }
             } else if (CorC.equals("choose") || CorC.equals("pick")) {
+            	// Let user manually decide which player goes first
                 Boolean chosen = false;
                 do{
                     System.out.println("Type 1 or 2 to decide who goes first.");
@@ -443,9 +471,13 @@ public class checkers {
                 }while(chosen==false);
             }
         }
+        
+        // Declare variables
         int turnCheck=0; 
         int winner = 0;
         int gameCondition = 0; int check = 0; 
+        
+        // Display text for informing which player's turn it is
         while (gameCondition==0) {
             if (check == 0) {
                 print();
@@ -475,7 +507,9 @@ public class checkers {
                         }
                     }
                 }
-                if (legalmoves == 0) {
+                
+                //Ends the game if a player has no legal moves on their turn
+                if (legalmoves == 0) { 
                 	gameCondition = 1;
                     if (turn == 1) {
                         winner = 2;
@@ -486,7 +520,13 @@ public class checkers {
                     break;
                 }
             }
+            
+            // Robot for computer mode
+  
+            //Variables
             int cord1 = 0; int cord2 = 0; int cord3 = 0; int cord4 = 0;
+            
+            // Robot/AI
             if (robotturn == 1) {
                 int[] numberlist = new int[36]; String results = ""; int[] frequency = new int[8];
                 for (int i=0;i<36;i++) {
@@ -516,10 +556,10 @@ public class checkers {
                     }
                 }
                 int biggest = -2; int biggestindex = -1;
-                for (int i=0;i<36;i++) {
-                    if (numberlist[i] > biggest) {
-                        biggest = numberlist[i];
-                        biggestindex = i;
+                for (int num=0;num<36;num++) {
+                    if (numberlist[num] > biggest) {
+                        biggest = numberlist[num];
+                        biggestindex = num;
                     }
                 }
                 if (frequency[biggest+1] > 1) {
@@ -539,10 +579,10 @@ public class checkers {
                         }
                     }
                     stop2 = false;
-                    for (int i=0;i<36;i++) {
-                        if (stop2 == false && numberlist[i] == biggest) {
+                    for (int num=0;num<36;num++) {
+                        if (stop2 == false && numberlist[num] == biggest) {
                             stop2 = true;
-                            biggestindex = i + (chance-1);
+                            biggestindex = num + (chance-1);
                         }
                     }
                     // picks a random move if the highest score has a frequency >1
@@ -553,11 +593,8 @@ public class checkers {
                 cord2 = results.charAt(findbiggest-3)-48;
                 cord3 = results.charAt(findbiggest-2)-48;
                 cord4 = results.charAt(findbiggest-1)-48;
-                // I have absolutely no idea why exactly it adds 48 to the value and I should 
-                // probably be more way more concerned, but if its not broke dont fix it
-                // Theory: something to do with ASCII
             }
-            if (turnCheck==0) {
+            if (turnCheck==0) { // Let user select a piece
                 System.out.println("Enter coordinate of piece");
             } else {
                 System.out.print("");
@@ -570,6 +607,8 @@ public class checkers {
             }
             Boolean work = false;
             String tstring = ""; int legalcheck = 0;
+            
+            // Error check user input
             if (input.length() > 1) {
                 if (robotturn == 0) {
                     char char1 = input.charAt(0); 
@@ -578,7 +617,8 @@ public class checkers {
                     cord2 = numbers.indexOf(char2);
                     if (cord1 > -1) {
                         if (cord2 > -1) {
-                            // This checks if the inputs are within 1-8
+                            // This checks if the inputs are within 1-8 and A-H. Displays error 
+                        	// message to user if inputs are beyond board's boundaries
                             work = true;
                         } else {
                             System.out.println("ERROR: Number is not within board space (1-8)");
@@ -591,12 +631,15 @@ public class checkers {
                     System.out.println(letters.charAt(cord1)+""+numbers.charAt(cord2));
                 }
             } else {check=1; turnCheck=1;}
+            
+            // This will display to the user what legal moves are available for the piece they selected
             if (work == true) {
                     int cord = positions[cord2][cord1];
-                    if (cord == 2) {
+                    
+                    if (cord == 2) { // For Player 2
                         if (turn == 2 || free == 1) {
                             switch (cord2) {
-                                // This is to check if the piece is not in danger of an arrayoutofbound error (is it on the edge of the board?)
+                                // Check and display legal moves for a piece between rows 2-7
                                 case 1:
                                 case 2:
                                 case 3:
@@ -642,13 +685,13 @@ public class checkers {
                                                 break;
                                         }
                                     }
-                                    if (legalcheck == 0) {
+                                    if (legalcheck == 0) { // If piece player selected has no legal moves available
                                         System.out.println("There are no legal moves for this piece!");
                                         check=1;
                                         break;
                                     }
                                     break;
-                                case 0:
+                                case 0: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                                     if (positions[cord2+1][cord1-1] != cord) {
                                         switch (positions[cord2+1][cord1-1] + 1) {
                                             case 2:
@@ -666,14 +709,14 @@ public class checkers {
                                                 legalcheck++;
                                                 tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
                                                 break;
-                                            default:
+                                            default: // If piece player selected has no legal moves available
                                                 System.out.println("There are no legal moves for this piece!");
                                                 check=1;
                                                 break;
                                         }
                                     }
                                     break;
-                                case 7:
+                                case 7: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                                     if (positions[cord2-1][cord-1] != cord) {
                                         switch (positions[cord2-1][cord1-1] + 1) {
                                             case 2:
@@ -691,22 +734,21 @@ public class checkers {
                                                 tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
                                                 legalcheck++;
                                                 break;
-                                            default:
+                                            default: // If piece player selected has no legal moves available
                                                 System.out.println("There are no legal moves for this piece!");
                                                 check=1;
                                                 break;
                                         }    
-                                            
                                     }
                                     break;
                             }
-                        } else {
+                        } else { // If user chose a piece that isn't owned by them
                             System.out.println("That is not your piece!");
                             check=1;
                         }
-                    } else if (cord == 1) {
+                    } else if (cord == 1) { // For Player 1
                         if (turn==1 || free == 1) {
-                            switch (cord2) {
+                            switch (cord2) { // Check and display legal moves for a piece between rows 2-7
                                 case 1:
                                 case 2:
                                 case 3:
@@ -750,13 +792,15 @@ public class checkers {
                                                 break;
                                         }
                                     }
-                                    if (legalcheck == 0) {
+                                    // If piece player selected has no legal moves available
+                                    if (legalcheck == 0) { 
                                         System.out.println("There are no legal moves for this piece!");
                                         check=1;
                                         break;
                                     }
                                     break;
-                                case 0:
+                                    
+                                case 0: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                                     if (positions[cord2+1][cord1+1] != cord) {
                                         switch (positions[cord2+1][cord1+1] + 1) {
                                             case 3:
@@ -774,14 +818,14 @@ public class checkers {
                                                 legalcheck++;
                                                 tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                                 break;
-                                            default:
+                                            default: // If piece player selected has no legal moves available
                                                 System.out.println("There are no legal moves for this piece!");
                                                 check=1;
                                                 break;
                                         }
                                     }
                                     break;
-                                case 7:
+                                case 7: // This is to check for legal moves for a piece in danger of an arrayoutofbound error (On the edge of the board)
                                     if (positions[cord2-1][cord1+1] != cord) {
                                         switch (positions[cord2-1][cord1+1] + 1) {
                                             case 3:
@@ -799,7 +843,7 @@ public class checkers {
                                                 tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
                                                 legalcheck++;
                                                 break;
-                                            default:
+                                            default: // If piece player selected has no legal moves available
                                                 System.out.println("There are no legal moves for this piece!");
                                                 check=1;
                                                 break;
@@ -808,16 +852,17 @@ public class checkers {
                                     }
                                     break;
                             }
-                        } else {
+                        } else { // If player chose a piece that isn't owned by them
                             System.out.println("That is not your piece!");
                             check=1;
                         }
-                    } else if (cord == 0) {
+                    } else if (cord == 0) { // If player entered a coordinate with no piece on it (empty square)
                         System.out.println("There is no checker piece at this spot! (" +letters.charAt(cord1)+""+numbers.charAt(cord2)+")");
                         print();
                         check=1;
                     } else if ((cord == 3 && turn == 1) || (cord == 4 && turn == 2) || (free == 1)) {
-                        // Checks if the piece is a king & it is the appropriate turn
+                        // Checks if the piece selected is a king & it is the appropriate turn
+                    	// Will display possible legal moves to player
                         if (cord1-1 >= 0) {
                             if (cord2-1 >= 0) {
                                 if (positions[cord2-1][cord1-1] != cord) {
@@ -838,14 +883,14 @@ public class checkers {
                                             tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2-1);
                                             legalcheck++;
                                             break;
-                                        default:
+                                        default: // If piece selected has no legal moves
                                             System.out.println("There are no legal moves for this piece!");
                                             check=1;
                                             break;
                                     }    
                                 }
                             }
-                            if (cord2+1 <= 7) {
+                            if (cord2+1 <= 7) { // This is to check for legal moves for a king piece in danger of an arrayoutofbound error (On the edge of the board)
                                 if (positions[cord2+1][cord1-1] != cord) {
                                     switch (positions[cord2+1][cord1-1] + 1) {
                                         case 2:
@@ -854,8 +899,7 @@ public class checkers {
                                                 if (positions[cord2+2][cord1-2] == 0) {
                                                     System.out.println("A piece take from "+letters.charAt(cord1-1)+""+numbers.charAt(cord2+1)+" to " + letters.charAt(cord1-2)+""+numbers.charAt(cord2+2)+" is available.");
                                                     legalcheck++;
-                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%';
-                                                    
+                                                    tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1); tstring += '%'; 
                                                 }
                                             }
                                             break;
@@ -864,7 +908,7 @@ public class checkers {
                                             tstring += letters.charAt(cord1-1); tstring += numbers.charAt(cord2+1);
                                             legalcheck++;
                                             break;
-                                        default:
+                                        default: // If piece selected has no legal moves
                                             System.out.println("There are no legal moves for this piece!");
                                             check=1;
                                             break;
@@ -872,7 +916,7 @@ public class checkers {
                                 }
                             }
                         }
-                        if (cord1+1 <= 7) {
+                        if (cord1+1 <= 7) { // This is to check for legal moves for a king piece in danger of an arrayoutofbound error (On the edge of the board)
                             if (cord2-1 >= 0) {
                                 if (positions[cord2-1][cord1+1] != cord) {
                                     switch (positions[cord2-1][cord1+1] + 1) {
@@ -892,14 +936,14 @@ public class checkers {
                                             tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2-1);
                                             legalcheck++;
                                             break;
-                                        default:
+                                        default: // If piece selected has no legal moves
                                             System.out.println("There are no legal moves for this piece!");
                                             check=1;
                                             break;
                                     }    
                                 }
                             }
-                            if (cord2+1 <= 7) {
+                            if (cord2+1 <= 7) { // This is to check for legal moves for a king piece in danger of an arrayoutofbound error (On the edge of the board)
                                 if (positions[cord2+1][cord1+1] != cord) {
                                     switch (positions[cord2+1][cord1+1] + 1) {
                                         case 2:
@@ -918,7 +962,7 @@ public class checkers {
                                             tstring += letters.charAt(cord1+1); tstring += numbers.charAt(cord2+1);
                                             legalcheck++;
                                             break;
-                                        default:
+                                        default: // If piece selected has no legal moves
                                             System.out.println("There are no legal moves for this piece!");
                                             check=1;
                                             break;
@@ -926,10 +970,11 @@ public class checkers {
                                 }
                             }
                         }
-                        if (legalcheck == 0) {
+                        if (legalcheck == 0) { // If piece selected has no legal moves
                             System.out.println("There are no legal moves for this piece!");
                         }
                     }
+                // Let user enter in target coordinate (Where the selected piece will be moved to)
                 if (legalcheck > 0 || robotturn == 1) {
                     int inputCondition=0; // Variable used for rerunning input process again if invalid input was received
                     int legalCheck2=0; // Checks if target coordinate entered by user was valid
@@ -950,13 +995,13 @@ public class checkers {
                             System.out.println(char3+""+char4);
                         }
                         int intcheck = 0;
-                        for (int i=0;i<tstring.length();i++) {
-                            if ((tstring.length()-i)>1) {
-                                if (tstring.charAt(i) == char3) {
-                                    if (tstring.charAt(i+1) == char4) {
+                        for (int num=0;num<tstring.length();num++) {
+                            if ((tstring.length()-num)>1) {
+                                if (tstring.charAt(num) == char3) {
+                                    if (tstring.charAt(num+1) == char4) {
                                        // Being extra careful to not go out of bounds
-                                       if (i+2 < tstring.length()) {
-                                           if (tstring.charAt(i+2) == '%') {
+                                       if (num+2 < tstring.length()) {
+                                           if (tstring.charAt(num+2) == '%') {
                                                intcheck = 2;
                                            } else {
                                                intcheck = 1;
