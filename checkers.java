@@ -413,10 +413,6 @@ public class checkers {
                 }
             }
         }
-        
-        //Introductory message
-        System.out.println("Welcome to checkers!");
-        
         // Get input. Let user choose game mode and other options
         System.out.println("Do you wish to enable free play? (no turns)");
         String freeornot = scan.nextLine(); // Free mode selection
@@ -607,7 +603,16 @@ public class checkers {
             }
             Boolean work = false;
             String tstring = ""; int legalcheck = 0;
-            
+            /*if (input.equals("END")) {
+            // This block is for testing the main file for replayability
+                for (int i=0;i<8;i++) {
+                    for (int i2=0;i2<8;i2++) {
+                        if (positions[i][i2] == 2) {
+                            positions[i][i2] = 0;
+                        }
+                    }
+                }
+            }*/
             // Error check user input
             if (input.length() > 1) {
                 if (robotturn == 0) {
