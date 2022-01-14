@@ -532,6 +532,8 @@ public class checkers {
                     // picks a random move if the highest score has a frequency >1
                 }
                 String yeah5 = "" + biggest;
+		    
+		// Get the coordinates of the piece
                 int findbiggest = 4+(5*biggestindex);
                 cord1 = results.charAt(findbiggest-4)-48;
                 cord2 = results.charAt(findbiggest-3)-48;
