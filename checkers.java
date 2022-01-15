@@ -443,10 +443,10 @@ public class checkers {
             if (free == 0) {
                 // Checks for legal moves
                 int legalmoves=0;
-                for (int i=0;i<8;i++) {
-                    for (int i2=0;i2<8;i2++) {
-                        if (positions[i2][i] == turn) {
-                            int checklegal = moveCheck(i2,i,turn);
+                for (int row=0;row<8;row++) {
+                    for (int col=0;col<8;col++) {
+                        if (positions[row][col] == turn) {
+                            int checklegal = moveCheck(row,col,turn);
                             legalmoves += checklegal;
                         }
                     }
